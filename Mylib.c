@@ -9,11 +9,5 @@ void imp_menu(void){
     printf("2- cadastro temporário \n");
     printf("3- Histórico \n");
     printf("4- Sobre \n");
-    printf("5- Sair \n");                                                                                                        cc \n");
-
-    
-    
-
-
-
+    printf("5- Sair \n");
 }
