@@ -1,0 +1,1 @@
+char  cadastro_cliente_convenio(void);
