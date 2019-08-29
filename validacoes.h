@@ -1,1 +1,1 @@
-char  cadastro_cliente_convenio(void);
+char valid_esccolhaHorario(void);
