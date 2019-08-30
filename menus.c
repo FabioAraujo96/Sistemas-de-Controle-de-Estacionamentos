@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include "validacoes.h"
+#include "menus.h"
 
 //telas referentes ao menu principal 
 
@@ -14,27 +16,27 @@ char  cadastro_cliente_convenio(){
       printf("------||| Cadastro cliente convênio |||-------\n");
       printf("==============================================\n");
       printf("\n Nome: ");
-      scanf("%s",&nome[0]);
+      scanf("%s", nome);
       printf("\n CPF: ");
       scanf("%d", &cpf);
       printf("\n Indentidade: ");
       scanf("%d", &indentidade);
       printf("\n Rua: ");
-      scanf("%s", &rua[0]);
+      scanf("%s", rua);
       printf("\n Bairro: ");
-      scanf("%s", &bairro[0]);
+      scanf("%s", bairro);
       printf("\n Cidade: ");
-      scanf("%s", &cidade[0]);
+      scanf("%s", cidade);
       printf("\n Estado: ");
-      scanf("%s", &estado[0]);
+      scanf("%s", estado);
       printf("\n Número da casa: ");
       scanf("%d", &numeroCasa);
       printf("\n Tipo de veículo(Carro/Moto): ");
-      scanf("%s", &tipoveiculo[0]);
+      scanf("%s", tipoveiculo);
       printf("\n Modelo do veículo: ");
-      scanf("%s", &modeloveiculo[0]);
+      scanf("%s", modeloveiculo);
       printf("\n Placa do veículo: ");
-      scanf("%s", &placa[0]);
+      scanf("%s", placa);
       printf("\n Click >> C << para voltar: ");
       scanf("%d", &op);
 
@@ -43,36 +45,37 @@ char  cadastro_cliente_convenio(){
 }
 char cadastro_avulso_composto() {
 
-  char escolha,nome[100], tipo_veiculo[100], modelo_veiculo[100], *escolha_horario[100],placa[100];
-  int cpf[100],op;
+  char escolha,nome[100], tipo_veiculo[100], modelo_veiculo[100], escolha_horario[100],placa[100];
+  int cpf,op;
     printf("==============================================\n");
     printf("-------||| RETIRAR TICKET AVULSO ||| ---------\n");
     printf("==============================================\n");
     printf("\n Nome: ");
-    scanf("%s", &nome[0]);
+    scanf("%s", nome);
 
     printf("\n CPF: ");
-    scanf("%d", &cpf[0]);
+    scanf("%d", &cpf);
 
     printf("\n Tipo de veículo(Carro/Moto): ");
-    scanf("%s", &tipo_veiculo[0]);
+    scanf("%s", tipo_veiculo);
 
     printf("\n Modelo do veículo: ");
-    scanf("%s", &modelo_veiculo[0]);
+    scanf("%s", modelo_veiculo);
   
     printf("\n Placa do veículo(LLL-NNNN): ");
-    scanf("%s", &placa[0]);
+    scanf("%s", placa);
 
-    printf("\n >>>>> OPÇÃO DE SERVIÇO <<<<<\n A- Até 30 minutos (R$7,OO)\n B- Até 2 horas (R$20,OO)\n C- Até 5 horas (R$45,OO)\n D- Até 12 horas (R$110,OO)\n Escolha uma opção de horário acima: ");
-    scanf("%c ", &escolha_horario[0]);
+    printf("\n >>>>> OPÇÃO DE SERVIÇO <<<<<\n A- Até 30 minutos (R$7,OO)\n B- Até 2 horas (R$20,OO)\n C- Até 5 horas (R$45,OO)\n D- Até 12 horas (R$110,OO)\n Escolha uma opção de horário acima: \n Para voltar digite C: \n");
+    scanf("%s ", escolha_horario);
+
+
+    //restante de código sendo feito
     
     
-    printf("\n Click >> C << para voltar: ");
-    scanf("%d", &op);
-
+     
 
   
-    return escolha;
+    return toupper(escolha);
 }
 
 char convenio_login(void){
@@ -85,7 +88,8 @@ char convenio_login(void){
     printf("\n B- Alterar dados            \n");
     printf("\n C- Retirar ticket           \n");
     printf("\n D- Total a pagar            \n");
-    printf("\n E- Voltar                   \n");
+    printf("\n E- Cadastrar cliente        \n");
+    printf("\n F- Voltar                   \n");
     printf("-------------------------------\n");
     printf("Por favor digite sua escolha:  \n");
     scanf(" %c", &escolha);
@@ -93,7 +97,7 @@ char convenio_login(void){
     return toupper(escolha);
 }
 
-char op_menu(void){
+char op_menu_cliente(void){
    char op;
     printf("-------------------------------\n");
     printf("========= MENU CLIENTE ========\n");
@@ -105,26 +109,29 @@ char op_menu(void){
     printf("Por favor digite sua escolha:  \n");
     scanf(" %c", &op);
 
-    return toupper(op);
+    return toupper(op);//
 }
 
 
 //funções que irão para o main
+
+//Referente a cliente
 char cliente_menu(void){
     char escolha;
     system("clear");
     
 
     do{
-        switch(escolha=op_menu()){
+        switch(escolha=op_menu_cliente()){
             case 'A':
                 cadastro_avulso_composto();
             
                 break;
 
             case'B':
-                convenio_login();
-                ;
+                escolha_navegacao_convenio();
+            
+                
                 break;
 
             default:
@@ -143,6 +150,53 @@ char cliente_menu(void){
 }
 //===========================================================================================//
 
+
+char escolha_navegacao_convenio(void){
+    char op;
+    system("clear");
+    
+
+    do{
+        switch(op=convenio_login()){
+            case 'A':
+                printf("em construção");
+            
+                break;
+
+            case'B':
+                printf("em construção");
+            
+                break;
+                
+            case 'C':
+                printf("em construção");
+
+                break;   
+
+            case 'D':
+               printf("em construção");
+
+                break;   
+            case 'E':
+                cadastro_cliente_convenio();
+
+                    
+                break;
+
+            default:
+
+			    printf("\n");
+			    printf(">>>Opção errada. Digite uma opção válida: ");
+			    printf("\n");
+
+
+
+        }
+    }
+    while(op!='F');
+
+        return op;
+}
 // menu empresa 
 char empresa_menu(void){
     char escolha;
@@ -162,7 +216,7 @@ char empresa_menu(void){
 
     return toupper(escolha);
 }
-
+//Referente a empresa 
 char administrador_menu(){
     char escolha;
     system("clear");
