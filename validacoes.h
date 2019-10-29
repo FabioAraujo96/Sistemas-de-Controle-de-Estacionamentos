@@ -1,2 +1,2 @@
-char valid_esccolhaHorario(void);
-char valid_alfabetica(char *letra);
+
+int valid_alfabetica(char);

@@ -1,10 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <ctype.h>
 #include "validacoes.h"
-#include "menus.h"
 
+
+#include "menus.h"
 //programa principal
 int main (void){
+	
     char menu_principal;
 	char escolha;
 	do {
@@ -20,7 +25,7 @@ int main (void){
 			case 'C':
 				sobre_menu();
 				break;
-			case 'D':
+			case 'S':
 				printf("\n");
 				printf(" Obrigado por ultilizar nossos serviços.Volte sempre.\n");
 				printf("\n");
@@ -31,7 +36,7 @@ int main (void){
 				printf("\n");
 		}
     }		
-	while(menu_principal != 'D');
+	while(menu_principal != 'S');
 	return 0;
 }
 
