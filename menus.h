@@ -12,19 +12,22 @@ char visualizarClientes(void);//em construção, referente ao menu empresa;
 char regristroAtividade(void);//em construção, referente ao menu empresa;
 char lucro(void);//em construção, referente ao menu empresa;
 void cadastro_cliente_convenio(void);//função com código pedindo informação do cliente, para função convênio;
-void cadastro_avulso_composto(void);//função com código pedindo informação do cliente, para função avulso;
+void cadastro_avulso_entrada(void);//função com código pedindo informação do cliente, para função avulso;
 char empresa_menu(void);//tela de menu da opção empresa
 char op_menu_cliente(void);
 char escolha_navegacao_convenio(void);
-void preco_avulso(void);// tabela de preço avulso
 void altera_convenio(void); //edita dados do cliente convênio
 void exibir_cliente_convenio(void);//função de exibir cliente convenio
 void preco_convenio(void);// ticket do cliente convênio
 void lista_clientecon(void); //lista clientes convenio
 void lista_clienteavul(void); //lista clientes avulso
 void data_hora(void); // função mostra a data e a hora atual
-
-
-
-
-
+char cliente_menu_avulso(void); // navehgação de cleinte avulso
+void cadastro_avulso_saida(void);// código para função saida
+char avulso_menu(void); // menu para avulso
+float calculapreco(int,int,int,int);// função para calcular o preço do cliente avulso 
+char convenio_menu(void);
+char escolha_navegacao_convenio(void);
+void cadastro_convenio_entrada(void) ;
+void cadastro_convenio_saida(void);
+char cliente_menu_convenio(void);
