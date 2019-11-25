@@ -15,7 +15,6 @@ void cadastro_cliente_convenio(void);//função com código pedindo informação
 void cadastro_avulso_entrada(void);//função com código pedindo informação do cliente, para função avulso;
 char empresa_menu(void);//tela de menu da opção empresa
 char op_menu_cliente(void);
-char escolha_navegacao_convenio(void);
 void altera_convenio(void); //edita dados do cliente convênio
 void exibir_cliente_convenio(void);//função de exibir cliente convenio
 void preco_convenio(void);// ticket do cliente convênio
@@ -31,3 +30,4 @@ char escolha_navegacao_convenio(void);
 void cadastro_convenio_entrada(void) ;
 void cadastro_convenio_saida(void);
 char cliente_menu_convenio(void);
+void excluirconvenio(void);
