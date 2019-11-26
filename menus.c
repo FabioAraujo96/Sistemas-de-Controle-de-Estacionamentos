@@ -8,7 +8,7 @@
 #include "menus.h"
 
 
-
+//criar crud de cliente, conta e contatação de serviço
 typedef struct clientecon Clientecon;
 
 struct clientecon {
@@ -18,11 +18,11 @@ struct clientecon {
   char bairro[30];
   char cidade[30];
   char estado[30];
-  char email[50];
+  int celular;
   char tipoveiculo[20];
   char modeloveiculo[20];
   char placa[20];
-  int identidade;
+  int cpf;
   int numeroCasa;
   int horaEntrada;
   int minutoEntrada;
@@ -32,6 +32,36 @@ struct clientecon {
   float preco_acumulado;
   char status;
 };
+
+
+typedef struct contacon Contacon;
+
+struct contacon {
+
+  int horaEntrada;
+  int minutoEntrada;
+  char saiu;
+  int horaSaida;
+  int minutoSaida;
+  float preco_acumulado;
+  char status;
+};
+
+typedef struct contaavul Contaavul;
+
+struct contaavul {
+
+  int horaEntrada;
+  int minutoEntrada;
+  char saiu;
+  int horaSaida;
+  int minutoSaida;
+  float preco_acumulado;
+  char status;
+};
+
+
+
 void gravaclicon( Clientecon*);
 void exibe_convenio(Clientecon*);
 
@@ -39,7 +69,6 @@ typedef struct clienteavul Clienteavul;
 
 struct clienteavul {
 
-  char nome[50];
   char placa[20];
   int horaEntrada;
   int minutoEntrada;
@@ -54,15 +83,32 @@ void gravacliavul(Clienteavul*);
 void exibe_avulso(Clienteavul*);
 
 
+
 typedef struct loginfun Loginfun;
 
-struct Loginfun {
+struct loginfun {
 
   char usuario[50];
   char senha [30];
   char status;
 
 };
+void gravafun(Loginfun*);
+
+
+
+
+typedef struct loginadmin LoginAdmin;
+
+struct loginadmin {
+
+  char usuario[50];
+  char senha [30];
+  char status;
+
+};
+void gravaadm(LoginAdmin*);
+
 //telas referentes ao menu principal 
 
 void cadastro_cliente_convenio(){
@@ -75,10 +121,10 @@ void cadastro_cliente_convenio(){
       clienteC = (Clientecon*) malloc(sizeof(Clientecon));
       printf("\n Nome: ");
       scanf(" %49[^\n]", clienteC->nome);
-      printf("\n Identidade: ");
-      scanf("%d", &clienteC->identidade);
-      printf("\n Email: ");
-      scanf(" %49[^\n]", clienteC->email);
+      printf("\n CPF: ");
+      scanf("%d", &clienteC->celular);
+      printf("\n Celular: ");
+      scanf("%d", &clienteC->celular);
       printf("\n Rua: ");
       scanf(" %29[^\n]", clienteC->rua);
       printf("\n Bairro: ");
@@ -122,16 +168,6 @@ void cadastro_avulso_entrada() {
     printf("------------|||     ENTRADA ||| --------------\n");
     printf("==============================================\n");
     clienteA = (Clienteavul*) malloc(sizeof(Clienteavul));
-    printf("\n Nome: ");
-    scanf(" %49[^\n]", clienteA->nome);
-    int i = 0;
-    while (clienteA->nome[i] != '\0')
-    {
-        valid_alfabetica(clienteA->nome[i]);
-        ++i;
-        
-    }
-    
     printf("\n Placa do veículo(LLL-NNNN): ");
     scanf(" %9[^\n]", clienteA->placa);
 
@@ -434,7 +470,6 @@ char cliente_menu_avulso(void){
                 char op;
                 break;
 
-            default:
 
 			    printf("\n");
 			    printf(">>>Opção errada. Digite uma opção válida: ");
@@ -454,7 +489,7 @@ char cliente_menu_convenio(void){
     system("clear");
     
 
-    do{
+    do{https:
         switch(escolha=convenio_menu()){
             case 'A':
                 cadastro_cliente_convenio();
@@ -565,7 +600,7 @@ char administrador_menu(){
     char escolha;
     system("clear");
     
-
+    comparando_loginadm();
     do{
         switch(escolha=empresa_menu()){
             case 'A':
@@ -613,28 +648,9 @@ char administrador_menu(){
 
 //====================================================================================================//
 
-void preco_convenio(void){
-    char escolha_horario;
-    printf("------------------------------------------------\n");
-    printf("Clientes convênio paga um valor fixo Mensalmente. \n");
-    printf("Esse valor é R$100,00\n");
-    printf("-------------------------------------------------\n");
-    
-    printf("\n\n");
-    printf("=======================\n");
-    printf("RETIRAR TICKET CONVÊNIO\n");
-    printf("=======================\n");
-    exibir_cliente_convenio();
-    printf("Valor da mensalidade: R$100,00\n");
-    printf("\nDigite Enter para Continuar: ");
-    getchar();
-    getchar();
-    
-  }
-
 //menu principal
 char imp_menu(void){
-    char escolha;// declarando variavel 
+    char escolha;
 
     system("clear");
     printf("------------------------------\n");
@@ -650,10 +666,61 @@ char imp_menu(void){
 
     return toupper(escolha);
 }
-/* 
-login principal(esta tela será o login admin do programa)*/
+ 
+//login principal(esta tela será o login funcionário e administrador do programa)
+
+void comparando_loginfun(void){ 
+  FILE* fp;
+  Loginfun* login;
+  fp = fopen("LoginFuncionario.dat", "r+b");
+  if (fp == NULL) {
+     imp_login();
+  }
+  else {
+    login_cadastrado_fun();
+    
+  }
+
+}
+
+void comparando_loginadm(void){ 
+  FILE* fp;
+  Loginfun* login;
+  fp = fopen("LoginAdministrador.dat", "r+b");
+  if (fp == NULL) {
+     adm_login();
+  }
+  else {
+    login_cadastrado_adm();
+    
+  }
+  
+}
+
 
 char imp_login(){
+    char escolha;
+    Loginfun* login;
+
+    system("clear");
+    printf("-------------------------------------------\n");
+    printf("======== BEM VINDO(A) AO CARS FLOW ========\n");
+    printf("-------------------------------------------\n");
+    login = (Loginfun*) malloc(sizeof(Loginfun));
+    printf("ATENÇÃO usuario: admin , senha: admin\n");
+    printf("Por favor para continuar faça login : \n");
+    printf("Usuário: \n");
+    scanf(" %49[^\n]", login->usuario);
+    printf("Senha: \n");
+    scanf(" %29[^\n]", login->senha);
+    login_funcionario();
+  
+    return escolha;
+
+}
+
+//função criada para quando o arquivo funcionário ja tiver algo cadastrado 
+char login_cadastrado_fun(void){
     char escolha;
     Loginfun* login;
 
@@ -671,6 +738,51 @@ char imp_login(){
     return escolha;
 
 }
+
+
+char adm_login(){
+    char escolha;
+    LoginAdmin* login;
+
+    system("clear");
+    printf("-------------------------------------------\n");
+    printf("======== LOGIN ADMINISTRADOR ========\n");
+    printf("-------------------------------------------\n");
+    login = (LoginAdmin*) malloc(sizeof(LoginAdmin));
+    printf("ATENÇÃO usuario: admin , senha: admin\n");
+    printf("Por favor para continuar faça login : \n");
+    printf("Usuário: \n");
+    scanf(" %49[^\n]", login->usuario);
+    printf("Senha: \n");
+    scanf(" %29[^\n]", login->senha);
+    login_administrador();
+  
+    return escolha;
+
+}
+
+
+//função criada para quando o arquivo administrador ja tiver algo cadastrado 
+char login_cadastrado_adm(void){
+    char escolha;
+    LoginAdmin* login;
+
+    system("clear");
+    printf("-------------------------------------------\n");
+    printf("======== BEM VINDO(A) AO CARS FLOW ========\n");
+    printf("-------------------------------------------\n");
+    login = (LoginAdmin*) malloc(sizeof(LoginAdmin));
+    printf("Por favor para continuar faça login : \n");
+    printf("Usuário: \n");
+    scanf(" %49[^\n]", login->usuario);https:
+    printf("Senha: \n");
+    scanf(" %29[^\n]", login->senha);
+  
+    return escolha;
+
+}
+
+//===============================================================================================================================//
 
 char sobre_menu(void){
     char valor;
@@ -814,10 +926,10 @@ void altera_convenio(void) {
     if (resp == 's' || resp == 'S') {
       printf("\n Nome: ");
       scanf(" %49[^\n]", clienteC->nome);
-      printf("\n Identidade: ");
-      scanf("%d", &clienteC->identidade);
-      printf("\n Email: ");
-      scanf(" %49[^\n]", clienteC->email);
+      printf("\n CPF: ");
+      scanf("%d", &clienteC->cpf);
+      printf("\n Celular: ");
+      scanf("%d", &clienteC->celular);
       printf("\n Rua: ");
       scanf(" %29[^\n]", clienteC->rua);
       printf("\n Bairro: ");
@@ -855,8 +967,8 @@ void altera_convenio(void) {
 void exibe_convenio(Clientecon* clienteC) {
   
   printf("Nome: %s\n", clienteC->nome);
-  printf("Identidade:%d\n", clienteC->identidade);
-  printf("Email: %s\n", clienteC->email);
+  printf("CPF:%d\n", clienteC->cpf);
+  printf("Celular: %d\n", clienteC->celular);
   printf("Rua: %s\n", clienteC->rua);
   printf("Bairro: %s\n", clienteC->bairro);
   printf("Cidade: %s\n", clienteC->cidade);
@@ -874,7 +986,6 @@ void exibe_convenio(Clientecon* clienteC) {
 
 //exibe cliente avulso
 void exibe_avulso(Clienteavul* clienteA) {
-  printf("Nome: %s\n", clienteA->nome);
   printf("Placa do  Veículo: %s\n", clienteA->placa);
   printf("Status: %c\n", clienteA->status);
   printf("\n");
@@ -1001,8 +1112,8 @@ float calculapreco(int horaEntrada,int minutoEntrada,int horaSaida,int minutoSai
 int difHoras= horaSaida - horaEntrada;
 int difminutos = minutoSaida - minutoEntrada;
 
-float precominuto = 0.15 * difminutos;
-float precoHora = (difHoras * 60) *0.15;
+float precominuto = 0.05 * difminutos;
+float precoHora = (difHoras * 60) *0.05;
 
 float precototal = precominuto + precoHora;
 
@@ -1053,4 +1164,132 @@ void excluirconvenio(void) {
   }
   free(clienteC);
   fclose(fp);
+}
+
+void pagamento_cliete_convenio(void) {
+   FILE* fp;
+  Clientecon* clienteC;
+  int achou;
+  char procurado[15];
+  fp = fopen("ClienteConvenio.dat", "rb");
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+  printf("\n\n");
+  printf("================================\n");
+  printf("====        PAGAMENTO       ====\n");
+  printf("================================\n");
+  printf("Informe a placa do cliente: ");
+  scanf(" %14[^\n]", procurado);
+  clienteC = (Clientecon*) malloc(sizeof(Clientecon));
+  achou = 0;
+  while((!achou) && (fread(clienteC, sizeof(Clientecon), 1, fp))) {
+   if ((strcmp(clienteC->placa, procurado) == 0) && (clienteC->status == '1')) {
+     achou = 1;
+   }
+  }
+  fclose(fp);
+  if (achou) {
+    exibe_convenio(clienteC); // aqui vai exibir o valor a ser pago pelo cliente
+    printf("Digite Enter para sair");
+    getchar();
+    getchar();
+  
+  } else {
+    printf("O Cliente  %s não foi encontrado...\n", procurado);
+  }
+  free(clienteC);
+}
+
+// função para o acumulo de divida do cliente convênio
+void acumula_valor(void){
+ 
+
+}
+
+//grava login funcionário
+void gravafun(Loginfun* login) {
+  FILE* fp;
+  fp = fopen("LoginFuncionario.dat", "ab");
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+  fwrite(login, sizeof(Loginfun), 1, fp);
+  fclose(fp);
+}
+
+//grava login administrador
+void gravaadm(LoginAdmin* login) {
+  FILE* fp;
+  fp = fopen("LoginAdministrador.dat", "ab");
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+  fwrite(login, sizeof(LoginAdmin), 1, fp);
+  fclose(fp);
+}
+
+/* grava conta avulso
+void grava(Clienteavul* clienteA) {
+  FILE* fp;
+  fp = fopen("ClienteAvulso.dat", "ab");
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+  fwrite(clienteA, sizeof(Clienteavul), 1, fp);
+  fclose(fp);
+}
+
+//grava conta convênio
+void grava(Clienteavul* clienteA) {
+  FILE* fp;
+  fp = fopen("ClienteAvulso.dat", "ab");
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+  fwrite(clienteA, sizeof(Clienteavul), 1, fp);
+  fclose(fp);
+}*/
+
+void login_funcionario(void){
+  Loginfun* login;
+  printf("--Por favor crie seu usuario e senha--\n");
+  login = (Loginfun*) malloc(sizeof(Loginfun));
+  printf("Usuário: \n");
+  scanf(" %49[^\n]", login->usuario);
+  printf("Senha: \n");
+  scanf(" %29[^\n]", login->senha);
+  login->status = '1';
+  printf("===============================\n");
+  gravafun(login);
+  printf("\n...usuaŕio e senha cadastrado com sucesso...\n ");
+  getchar();
+  printf("aperte ENTER para continuar");
+}
+
+void login_administrador(void){
+  LoginAdmin* login;
+  printf("--Por favor crie seu usuario e senha--\n");
+  login = (LoginAdmin*) malloc(sizeof(LoginAdmin));
+  printf("Usuário: \n");
+  scanf(" %49[^\n]", login->usuario);
+  printf("Senha: \n");
+  scanf(" %29[^\n]", login->senha);
+  login->status = '1';
+  printf("===============================\n");
+  gravaadm(login);
+  printf("\n...usuaŕio e senha cadastrado com sucesso...\n ");
+  getchar();
+  printf("aperte ENTER para continuar");
+
 }

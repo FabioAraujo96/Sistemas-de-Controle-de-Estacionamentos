@@ -12,6 +12,7 @@ int main (void){
 	
     char menu_principal;
 	char escolha;
+	comparando_loginfun();
 	do {
 
 		switch(menu_principal = imp_menu()) {
