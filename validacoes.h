@@ -1,2 +1,4 @@
 
-int valid_alfabetica(char);
+int valid_alfabetica(char *);
+int validacpf(char * );
+int cpfJaExiste(char*);

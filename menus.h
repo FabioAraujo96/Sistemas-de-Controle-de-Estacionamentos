@@ -1,8 +1,116 @@
-///Declarando funções
+typedef struct clientecon Clientecon;
 
-/* função que mostra menu
-*/
+struct clientecon {
+  int cod;
+  char nome[50];
+  char rua[30];
+  char bairro[30];
+  char cidade[30];
+  char estado[30];
+  int celular;
+  char tipoveiculo[20];
+  char modeloveiculo[20];
+  char placa[20];
+  char cpf [16];
+  int numeroCasa;
+  float preco_acumulado;
+  char status;
+};
 
+typedef struct usclientecon UsClientecon;
+
+struct usclientecon {
+  int cod;
+  char nome[50];
+  char rua[30];
+  char bairro[30];
+  char cidade[30];
+  char estado[30];
+  int celular;
+  char tipoveiculo[20];
+  char modeloveiculo[20];
+  char placa[20];
+  char cpf [16];
+  int numeroCasa;
+  float preco_acumulado;
+  char status;
+  UsClientecon* prox;
+};
+
+typedef struct contacon Contacon;
+
+struct contacon {
+  char placa[20];
+  int horaEntrada;
+  int minutoEntrada;
+  char saiu;
+  int horaSaida;
+  int minutoSaida;
+  int dia;
+  int mes;
+  int ano;
+  float valortotal;
+  float preco_acumulado;
+  float preco;
+  char status;
+};
+
+
+typedef struct contaavul Contaavul;
+
+struct contaavul {
+  char placa[20];
+  int horaEntrada;
+  int minutoEntrada;
+  char saiu;
+  int horaSaida;
+  int minutoSaida;
+  int dia;
+  int mes;
+  int ano;
+  float preco_acumulado;
+  char status;
+};
+
+
+// estrutura criada para logi de funcionarios\\
+
+
+typedef struct loginfun Loginfun;
+
+struct loginfun {
+
+  char usuario[50];
+  char senha [30];
+  char status;
+
+};
+
+//================================================\\
+
+// estrutura criada para login de administradores \\
+
+
+
+typedef struct loginadmin LoginAdmin;
+
+struct loginadmin {
+
+  char usuario[50];
+  char senha [30];
+  char status;
+
+};
+void gravafun(Loginfun*);
+void  grava_conta_convenio(Contacon*);
+UsClientecon* listaDiretaclientes(void);
+void exibeLista(UsClientecon*);
+void gravaadm(LoginAdmin*);
+void grava_conta_avulso(Contaavul*);
+void exibe_conta_avulso(Contaavul*);
+void exibe_conta_convenio(Contacon*);
+void gravaclicon( Clientecon*);
+void exibe_convenio(Clientecon*);
 char imp_menu(void);//tela menu principal;
 char cliente_menu(void);//tela do cliente avulso e Convênio;
 char administrador_menu(void);//menu empresa;
@@ -40,3 +148,8 @@ void comparando_loginfun(void);//função para fazer comparação se há arquivo
 void comparando_loginadm(void);//função para fazer comparação se há arquivo registrado em administrador
 char login_cadastrado_fun(void);//função para login funcionário, quando ja haver login cadastrado
 char login_cadastrado_adm(void);// função para login administrador, quando ja haver login cadastrado
+void lista_dia_convenio(void);// funçao para listar cientes por dia(relatório administrador)
+char cliente_empresa_relatorio(void); // navegação para relatorio de clientes
+char cliente_empresa_lucro(void);// navegação para lucro
+void lista_mes_convenio(void); //função para listar clientes por mês(relatório administrador)
+void lista_ano_convenio(void);// função para listar clientes por ano(relatório administrador)
