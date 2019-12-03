@@ -6,15 +6,8 @@
 #include "validacoes.h"
 #include "menus.h"
 
-/*
 
-typedef struct clientecon Clientecon;
 
-struct clientecon {
-
-  char cpf [16];
-  char status;
-};
 
 //===========================      VALIDAÇÃO PARA LETRAS   ==========================\\
 
@@ -111,4 +104,61 @@ int validacpf(char * cpf){
     }
   }
 }
-*/
+
+
+
+
+int validaloginfunusuario(char* usuario) {
+  FILE* fp;
+  Loginfun* login;
+  int achou = 0;
+  
+  fp = fopen("LoginFuncionário.dat", "rb");
+  if (fp == NULL) {
+    return 0;
+  }
+  login = (Loginfun*) malloc(sizeof(Loginfun));
+  while((!achou) && (fread(login, sizeof(Loginfun), 1, fp))) {
+    
+     if ((strcmp(login->usuario, usuario) == 0) && (login->status == '1'))
+
+    {
+     achou = 1;
+   }
+  }
+  fclose(fp); 
+  if (achou) {
+    return 1;
+    
+  
+  } else {
+    return 0;
+  }
+  free(login);
+}
+
+
+
+/*int validaloginfunusuario(char* usuario){
+  int encontrado = 0;
+  FILE* fp;
+  Loginfun* login;
+  fp = fopen("LoginFuncionario.dat","rb");
+  if(fp == NULL){
+    return 0;
+  } else{
+    login = (Loginfun*) malloc(sizeof(Loginfun));
+    while((!encontrado) && (fread(login, sizeof(Loginfun), 1, fp))){
+      if((strcmp(login->usuario,usuario) && (login->status == '1'))){
+        encontrado = 1;
+      }
+    }
+    fclose(fp);
+    free(login);
+    if(encontrado){
+      return 1;
+    } else{
+      return 0;
+    }
+  }
+}*/

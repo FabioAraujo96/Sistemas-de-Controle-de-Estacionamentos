@@ -32,7 +32,6 @@ struct usclientecon {
   char placa[20];
   char cpf [16];
   int numeroCasa;
-  float preco_acumulado;
   char status;
   UsClientecon* prox;
 };
@@ -51,14 +50,14 @@ struct contacon {
   int ano;
   float valortotal;
   float preco_acumulado;
-  float preco;
+
   char status;
 };
 
 
-typedef struct contaavul Contaavul;
+typedef struct vlontacon Vlontacon;
 
-struct contaavul {
+struct vlontacon {
   char placa[20];
   int horaEntrada;
   int minutoEntrada;
@@ -68,9 +67,12 @@ struct contaavul {
   int dia;
   int mes;
   int ano;
+  float valortotal;
   float preco_acumulado;
   char status;
+  Vlontacon* prox;
 };
+
 
 
 // estrutura criada para logi de funcionarios\\
@@ -101,13 +103,16 @@ struct loginadmin {
   char status;
 
 };
+
+UsClientecon* listaOrdenadaconvenio(void);
+UsClientecon* listaInvertidaconvenio(void);
 void gravafun(Loginfun*);
 void  grava_conta_convenio(Contacon*);
-UsClientecon* listaDiretaclientes(void);
-void exibeLista(UsClientecon*);
+Vlontacon* listaInvertidaavulso(void);
+UsClientecon* listaDiretaclientes(void);;
+void exibeListaConta(Vlontacon*)
+;void exibeLista(UsClientecon*);
 void gravaadm(LoginAdmin*);
-void grava_conta_avulso(Contaavul*);
-void exibe_conta_avulso(Contaavul*);
 void exibe_conta_convenio(Contacon*);
 void gravaclicon( Clientecon*);
 void exibe_convenio(Clientecon*);
