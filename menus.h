@@ -1,15 +1,14 @@
 typedef struct clientecon Clientecon;
 
 struct clientecon {
-  int cod;
   char nome[50];
   char rua[30];
-  char bairro[30];
-  char cidade[30];
+  char bairro[40];
+  char cidade[40];
   char estado[30];
-  int celular;
+  char email [40];
   char tipoveiculo[20];
-  char modeloveiculo[20];
+  char modeloveiculo[40];
   char placa[20];
   char cpf [16];
   int numeroCasa;
@@ -20,18 +19,18 @@ struct clientecon {
 typedef struct usclientecon UsClientecon;
 
 struct usclientecon {
-  int cod;
   char nome[50];
   char rua[30];
-  char bairro[30];
-  char cidade[30];
+  char bairro[40];
+  char cidade[40];
   char estado[30];
-  int celular;
+  char email [40];
   char tipoveiculo[20];
-  char modeloveiculo[20];
+  char modeloveiculo[40];
   char placa[20];
   char cpf [16];
   int numeroCasa;
+  float preco_acumulado;
   char status;
   UsClientecon* prox;
 };
@@ -39,7 +38,9 @@ struct usclientecon {
 typedef struct contacon Contacon;
 
 struct contacon {
+  char nome[50];
   char placa[20];
+  char cpf[16];
   int horaEntrada;
   int minutoEntrada;
   char saiu;
@@ -48,17 +49,29 @@ struct contacon {
   int dia;
   int mes;
   int ano;
-  float valortotal;
   float preco_acumulado;
 
   char status;
 };
 
+typedef struct contrato Contrato;
 
-typedef struct vlontacon Vlontacon;
-
-struct vlontacon {
+struct contrato {
+  char nome[50];
   char placa[20];
+  char cpf [16];
+  float preco_acumulado;
+
+  char status;
+};
+
+//implemnatr uma estrutura apenas para cliente avulso
+
+typedef struct avulso Avulso;
+
+struct avulso {
+  char placa[20];
+  float avulso_acumulado;
   int horaEntrada;
   int minutoEntrada;
   char saiu;
@@ -67,10 +80,7 @@ struct vlontacon {
   int dia;
   int mes;
   int ano;
-  float valortotal;
-  float preco_acumulado;
   char status;
-  Vlontacon* prox;
 };
 
 
@@ -104,22 +114,25 @@ struct loginadmin {
 
 };
 
-UsClientecon* listaOrdenadaconvenio(void);
-UsClientecon* listaInvertidaconvenio(void);
-void gravafun(Loginfun*);
-void  grava_conta_convenio(Contacon*);
-Vlontacon* listaInvertidaavulso(void);
-UsClientecon* listaDiretaclientes(void);;
-void exibeListaConta(Vlontacon*)
-;void exibeLista(UsClientecon*);
-void gravaadm(LoginAdmin*);
-void exibe_conta_convenio(Contacon*);
-void gravaclicon( Clientecon*);
-void exibe_convenio(Clientecon*);
+
+void exibe_Avulso(Avulso*);//--> criando ainda (não sei se vou ter tempo)
+void liberaLista(UsClientecon*);// função para liberar lista
+UsClientecon* listaOrdenadaconvenio(void);// função para lista ordenada 
+UsClientecon* listaInvertidaconvenio(void);// função  para lista invertida
+void gravafun(Loginfun*);//função para gravar login de funcionário
+void  grava_conta_convenio(Contacon*);//função para gravar conta convênio
+UsClientecon* listaDiretaclientes(void);// função para lista direta de clientes
+void exibeLista(UsClientecon*);//função que exibe lista--dinâmica
+void gravaadm(LoginAdmin*);//função que grava função para administrador 
+void gravaavulso(Avulso*);//f>>>>>unção está sendo implementada<<<<<
+void exibe_conta_convenio(Contacon*);//função que exibe valores referente ao uso de estacionamento 
+void gravacontrato(Contrato*) ;//função que grava contatro -- função de pagamento dos clientes
+void gravaclicon( Clientecon*);// grava cliente convênio
+void exibe_convenio(Clientecon*);//função para exibir clientes convênio
 char imp_menu(void);//tela menu principal;
 char cliente_menu(void);//tela do cliente avulso e Convênio;
 char administrador_menu(void);//menu empresa;
-char sobre_menu(void);//função mostra uma descrição breve do programa e seus criadores;
+void sobre_menu(void);//função mostra uma descrição breve do programa e seus criadores;
 char convenio_login(void);//tela de menu da opção convênio;
 char visualizarClientes(void);//em construção, referente ao menu empresa;
 char regristroAtividade(void);//em construção, referente ao menu empresa;
@@ -127,7 +140,7 @@ char lucro(void);//em construção, referente ao menu empresa;
 void cadastro_cliente_convenio(void);//função com código pedindo informação do cliente, para função convênio;
 void cadastro_avulso_entrada(void);//função com código pedindo informação do cliente, para função avulso;
 char empresa_menu(void);//tela de menu da opção empresa
-char op_menu_cliente(void);
+char op_menu_cliente(void);// tela de menu para opção cliente avulso/convenio
 void altera_convenio(void); //edita dados do cliente convênio
 void exibir_cliente_convenio(void);//função de exibir cliente convenio
 void lista_clientecon(void); //lista clientes convenio
@@ -141,14 +154,14 @@ char convenio_menu(void);//função para mostrar o menu convênio
 char escolha_navegacao_convenio(void);//função para navegação de telas de convênio
 void cadastro_convenio_entrada(void) ;//função para cadastrar entrada de convenio
 void cadastro_convenio_saida(void);//função para cadastrar saida de convênio
-char cliente_menu_convenio(void);//
-void excluirconvenio(void);
-char imp_login(void);
-char adm_login(void);
+char cliente_menu_convenio(void);//função de navegação do cliente convênio
+void excluirconvenio(void);// função que Exclui cliente Convênio
+char imp_login(void);//primeira tela de login Funcionário
+char adm_login(void);// primeira tela de login Administrador
 void pagamento_cliete_convenio(void);// função para pagamento convênio
 void acumula_valor(void);// função para acumular valores de convênio
-void login_funcionario(void);
-void login_administrador(void);
+void login_funcionario(void);//função para criar usuario e senha de funcionário->gravando dados
+void login_administrador(void);//// função para criar usuario e senha de funcionário-> gravando dados
 void comparando_loginfun(void);//função para fazer comparação se há arquivo registrado em funcionário
 void comparando_loginadm(void);//função para fazer comparação se há arquivo registrado em administrador
 char login_cadastrado_fun(void);//função para login funcionário, quando ja haver login cadastrado

@@ -25,6 +25,8 @@ int main (void){
 				break;
 			case 'C':
 				sobre_menu();
+				getchar();
+				getchar();
 				break;
 			case 'S':
 				printf("\n");

@@ -5,24 +5,49 @@
 #include <ctype.h>
 #include "validacoes.h"
 #include "menus.h"
+#include <regex.h>
 
 
 
+//=================================================     VALIDAÇÃO PARA LETRAS   ==================================================
 
-//===========================      VALIDAÇÃO PARA LETRAS   ==========================\\
 
-int valid_alfabetica(char* nome){
-	int tamanho = strlen(nome);
-	for(int i = 0; i < tamanho; i++){
-		if(!(nome[i] >= 'a' && nome[i] <= 'z') || (nome[i] >= 'A' && nome[i] <= 'Z') || nome[i] == ' '){
-		return 0;
-		}
-	}
-	
-return 1;
+int validaNome(char nome[100]) {
+
+    regex_t reg;
+
+    if((strlen(nome)) > 100) {
+
+        return 0;
+
+    } else {
+
+        if(regcomp(&reg, RE_NAME, REG_EXTENDED|REG_NOSUB) != 0) {
+
+            return 0;
+
+        } else {
+
+            if((regexec(&reg, nome, 0, (regmatch_t*)NULL, 0)) == 0) {
+
+                return 1;
+
+            } else {
+
+                return 0;
+
+            }
+
+        }
+
+    }
+
 }
 
-//=============================================== VALIDAÇÃO DE CPF =====================\\
+
+
+
+//================================================================ VALIDAÇÃO DE CPF ===================================================\\
 
 int chartoint(char c){
     return c - '0';
@@ -139,6 +164,46 @@ int validaloginfunusuario(char* usuario) {
 
 
 
+int validaEmail(char* email) {
+
+  int tam = strlen(email);
+  int arroba = 0, ponto = 0, Aponto = 0, Dponto = 0, i;
+
+  for (i = 0; i < tam; i++){
+    char c = email[i];
+
+    if(c == '@'){
+      if (arroba)
+        break;
+      arroba = 1;
+      if (i < 3)
+        break;
+    }
+    else if (arroba){ 
+      if (ponto){ 
+        Dponto++;
+      }
+      else if (c == '.'){
+        ponto = 1;
+        if (Aponto < 3){
+          break;
+        }
+      }
+      else{
+        Aponto++;
+      }
+    }
+  } 
+
+  if (i == tam && Dponto > 1)
+    return 1;
+  else
+    return 0;
+}
+
+
+
+
 /*int validaloginfunusuario(char* usuario){
   int encontrado = 0;
   FILE* fp;
@@ -162,3 +227,39 @@ int validaloginfunusuario(char* usuario) {
     }
   }
 }*/
+
+
+
+int validanumero(char* numero) {
+
+    regex_t reg;
+
+    if(strlen(numero) > 2) {
+
+        return 0;
+
+    }
+
+    else {
+
+        if(regcomp(&reg, RE_NUMBER, REG_EXTENDED|REG_NOSUB) != 0) {
+
+            return 0;
+
+        } else {
+
+            if((regexec(&reg, numero, 0, (regmatch_t*)NULL, 0)) == 0) {
+
+                return 1;
+
+            } else {
+
+                return 0;
+
+            }
+
+        }
+
+    }
+
+}

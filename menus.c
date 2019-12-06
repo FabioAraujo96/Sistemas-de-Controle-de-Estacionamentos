@@ -8,9 +8,10 @@
 #include "menus.h"
 
 
-//telas referentes ao menu principal 
+//===============================CADASTRANDO  CLIENTE CONVÊNIO ===============================================================
 
-void cadastro_cliente_convenio(){
+void cadastro_cliente_convenio(void){
+    
     Clientecon* clienteC;
     char escolha, op;
 
@@ -20,36 +21,49 @@ void cadastro_cliente_convenio(){
       clienteC = (Clientecon*) malloc(sizeof(Clientecon));
       printf("\n Nome: ");
       scanf(" %49[^\n]", clienteC->nome);
-      fflush(stdin);
+      while(!(validaNome(clienteC->nome))){
+      printf("Nome  inválido. Digite novamente: ");
+      scanf(" %49[^\n]", clienteC->nome);
+      }
       printf("\n CPF: ");
       scanf(" %15[^\n]", clienteC->cpf);
-      printf("\n Celular: ");
-      scanf("%d", &clienteC->celular);
-      fflush(stdin);
+      while(!(validacpf(clienteC->cpf))){
+      printf("CPF inválido. Digite novamente: ");
+      scanf(" %15[^\n]", clienteC->cpf);
+      }
+      printf("\n Email: ");
+      scanf(" %39[^\n]", clienteC->email);
+      while(!(validaEmail(clienteC->email))){
+      printf("Email inválido. Digite novamente: ");
+      scanf(" %39[^\n]", clienteC->email);
+      }
+      
       printf("\n Rua: ");
-      scanf(" %29[^\n]", clienteC->rua);
-      fflush(stdin);
+      scanf(" %39[^\n]", clienteC->rua);
+      
       printf("\n Bairro: ");
-      scanf(" %29[^\n]", clienteC->bairro);
-      fflush(stdin);
+      scanf(" %39[^\n]", clienteC->bairro);
+      
+  
       printf("\n Cidade: ");
-      scanf(" %29[^\n]", clienteC->cidade);
-      fflush(stdin);
+      scanf(" %39[^\n]", clienteC->cidade);
+      
       printf("\n Estado: ");
       scanf(" %29[^\n]", clienteC->estado);
-      fflush(stdin);
+    
+      
       printf("\n Número da casa: ");
       scanf("%d", &clienteC->numeroCasa);
-      fflush(stdin);
+      
       printf("\n Tipo de veículo(Carro/Moto): ");
       scanf(" %19[^\n]", clienteC->tipoveiculo);
-      fflush(stdin);
+      
       printf("\n Modelo do veículo: ");
-      scanf(" %19[^\n]", clienteC->modeloveiculo);
-      fflush(stdin);
+      scanf(" %39[^\n]", clienteC->modeloveiculo);
+    
       printf("\n Placa do veículo: ");
       scanf(" %19[^\n]", clienteC->placa);
-      fflush(stdin);
+      clienteC->preco_acumulado=0;
       clienteC->status = '1';
       printf("\n");
       printf("===============================\n");
@@ -61,16 +75,13 @@ void cadastro_cliente_convenio(){
       scanf("%s", &op);
 
 }
-//=================== cadastro entrada e saida do cliente avulso ===============================
+
+//============================= cadastro entrada e saida do cliente avulso=====================================================
 
 void cadastro_avulso_entrada() {
     char op;
-     Contacon* contaCO;
-     struct tm *hora;     
-     
-      
-     
-     
+    Contacon* contaCO;
+    struct tm *hora;     
     time_t segundos;
     time(&segundos);   
     hora = localtime(&segundos);  
@@ -88,7 +99,6 @@ void cadastro_avulso_entrada() {
     contaCO-> minutoEntrada= hora ->tm_min; 
     contaCO-> horaSaida = 0;
     contaCO-> minutoSaida = 0;
-
     contaCO-> saiu = 'n';
     contaCO -> status = '1';
     contaCO->status = '1';
@@ -97,12 +107,12 @@ void cadastro_avulso_entrada() {
     printf("\n... Registrado com sucesso...\n ");
     printf("Click >> V << para voltar: ");
     scanf("%s", &op);
-
-  
     
 }
 
-void cadastro_avulso_saida() {
+
+
+void cadastro_avulso_saida(void) {
     char op;
     FILE* fp;
     int achou;
@@ -137,7 +147,6 @@ void cadastro_avulso_saida() {
    }
   }
   if (achou) {
-    exibe_conta_convenio(contaCO);
 
     contaCO-> horaSaida = hora ->tm_hour;
     contaCO-> minutoSaida = hora ->tm_min;
@@ -166,132 +175,221 @@ void cadastro_avulso_saida() {
     printf("Click >> V << para voltar: ");
     scanf("%s", &op);
 
-  
-
  
 }
+
 
 //=============================================================================================================================================
 
 
 //========================== cadastro entrada e saida cliente convenio =================================================================
-void cadastro_convenio_entrada() {
+void cadastro_convenio_entrada(void) {
     char op;
-     Contacon* contaCO;
-     Clientecon* clienteC;
-     struct tm *hora;     
-     
-      
-     
-     
+    FILE* fp1;
+    FILE* fp2;
+    FILE* fp3;
+    Clientecon* clienteC;
+    Contacon* contaCO;
+    Contrato* cliente;
+    struct tm *hora;     
     time_t segundos;
     time(&segundos);   
+    char procurando [12];
+    int achou=0, achou2=0;
+    char placa[9];
     hora = localtime(&segundos);  
+    fp1 = fopen("ClienteConvenio.dat", "rb");
+    fp2 = fopen("ContaConvenio.dat", "r+b");
+    fp3 = fopen("Contrato.dat","ab");
+
+    if ((fp1 == NULL) && (fp2 == NULL) && (fp3 ==NULL)) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }
 
     printf("==============================================\n");
-    printf("------------|||     ENTRADA ||| --------------\n");
+    printf("------------|||  ENTRADA ||| --------------\n");
     printf("==============================================\n");
-    clienteC = (Clientecon*) malloc(sizeof(Clientecon));
+    printf("\n Por Favor Digite o CPF do Cliente: ");
+    scanf(" %15[^\n]", procurando);
+
+    clienteC= (Clientecon*)malloc(sizeof(Clientecon));
     contaCO = (Contacon*) malloc(sizeof(Contacon));
-    printf("\n Placa do veículo(LLL-NNNN): ");
-    scanf(" %9[^\n]", contaCO->placa);
-    contaCO-> dia= hora -> tm_mday;//dia
-    contaCO->mes= hora ->tm_mon+1; //mês
-    contaCO->ano= hora ->tm_year+1900; //ano
-    contaCO-> horaEntrada= hora ->tm_hour; 
-    contaCO-> minutoEntrada= hora ->tm_min; 
-    contaCO-> horaSaida = 0;
-    contaCO-> minutoSaida = 0;
-    contaCO->preco_acumulado = 0;
+    cliente = (Contrato*) malloc(sizeof(Contrato));
 
-    contaCO-> saiu = 'n';
-    contaCO -> status = '1';
-    contaCO->status = '1';
-    printf("\n");
-    printf("===============================\n");
-    exibe_conta_convenio(contaCO);
-    printf("===============================\n");
-    grava_conta_convenio(contaCO);
-    printf("\n... Registrado com sucesso...\n ");
-    printf("Click >> V << para voltar: ");
-    scanf("%s", &op);
-
-  
+    while((!achou) && (fread(clienteC, sizeof(Clientecon), 1, fp1))) {
+      if((strcmp(clienteC->cpf, procurando) == 0) && (clienteC->status == '1')) {
+            achou = 1;
+        }
+    }
     
+    if (achou){
+
+      while((!achou2) && (fread(contaCO, sizeof(Contacon), 1, fp2))) {
+        if((strcmp(contaCO->cpf, clienteC->cpf) == 0) && (contaCO->status == '1')) {
+            achou2 = 1;
+        }
+
+      }
+    }
+
+    if(achou2) {
+
+        contaCO-> horaSaida = 0;
+        contaCO-> minutoSaida = 0;
+
+       contaCO-> horaEntrada= hora ->tm_hour; 
+       contaCO-> minutoEntrada= hora ->tm_min; 
+       
+       contaCO-> dia= hora -> tm_mday;//dia
+       contaCO->mes= hora ->tm_mon+1; //mês
+       contaCO->ano= hora ->tm_year+1900; //ano
+       contaCO-> horaEntrada= hora ->tm_hour; 
+       contaCO-> minutoEntrada= hora ->tm_min; 
+       contaCO-> saiu = 'n'; 
+
+       fseek(fp2, (-1)*sizeof(Contacon), SEEK_CUR);
+        fwrite(contaCO, sizeof(Contacon), 1, fp2);
+
+       printf("\n... Registrado com sucesso...\n ");
+       printf("Click >> V << para voltar: ");
+       scanf("%s", &op);
+    
+    } else {
+
+       strcpy(contaCO->cpf, clienteC->cpf);
+       strcpy(contaCO->nome, clienteC->nome);
+       strcpy(contaCO->placa, clienteC->placa);
+
+        contaCO-> horaSaida = 0;
+        contaCO-> minutoSaida = 0;
+
+       contaCO-> horaEntrada= hora ->tm_hour; 
+       contaCO-> minutoEntrada= hora ->tm_min; 
+       
+       contaCO-> dia= hora -> tm_mday;//dia
+       contaCO->mes= hora ->tm_mon+1; //mês
+       contaCO->ano= hora ->tm_year+1900; //ano
+       contaCO-> horaEntrada= hora ->tm_hour; 
+       contaCO-> minutoEntrada= hora ->tm_min; 
+       contaCO-> saiu = 'n';
+       contaCO -> status = '1';
+       printf("\n");
+       grava_conta_convenio(contaCO);
+       strcpy(cliente->cpf, contaCO->cpf);
+       strcpy(cliente->nome, contaCO->nome);
+       strcpy(cliente->placa, contaCO->placa);
+       gravacontrato(cliente);
+       printf("\n... Registrado com sucesso...\n ");
+       printf("Click >> V << para voltar: ");
+       scanf("%s", &op);
+      }  
+      
+fclose(fp1);
+fclose(fp2);
+fclose(fp3);
+free(clienteC);
+free(contaCO);
+free(cliente);
+
 }
+
+
+
 
 void cadastro_convenio_saida() {
     char op;
-    FILE* fp;
-    int achou;
-    char resp;
-    char procurado[15];
-     Contacon* contaCO;
-     Clientecon* clienteC;
-     struct tm *hora;     
-
+    FILE* fp1;
+    FILE* fp2;
+    FILE* fp3;
+    Clientecon* clienteC;
+    Contrato* cliente;
+    Contacon* contaCO;
+    struct tm *hora;     
     time_t segundos;
     time(&segundos);   
+    char procurando [12];
+    int achou=0, achou2=0, achou3=0;
+    char placa[9];
     hora = localtime(&segundos);  
-    
+    fp1 = fopen("ClienteConvenio.dat", "r+b");
+    fp2 = fopen("ContaConvenio.dat", "r+b");
+    fp3 = fopen("Contrato.dat","r+b");
+    if ((fp1 == NULL) && (fp2 == NULL)&&(fp3 == NULL)) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }  
 
     printf("==============================================\n");
     printf("------------   ||| SAÍDA |||    --------------\n");
     printf("==============================================\n");
-    
-  fp = fopen("ContaConvenio.dat", "r+b");
-  if (fp == NULL) {
-    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
-    printf("Não é possível continuar o programa...\n");
-    exit(1);
-  }
-  printf("\n\n");
-  printf("Informe o nome da placa do veículo: ");
-  scanf(" %14[^\n]", procurado);
-  clienteC = (Clientecon*) malloc(sizeof(Clientecon));
-  contaCO = (Contacon*) malloc(sizeof(Contacon));
-  achou = 0;
-  while((!achou) && (fread(contaCO, sizeof(Contacon), 1, fp))) {
-   if ((strcmp(contaCO->placa, procurado) == 0) && (contaCO->status == '1')) {
-     achou = 1;
-   }
-  }
-  if (achou) {
-    exibe_conta_convenio(contaCO);
+    printf("\n Por Favor Digite o CPF do Cliente: ");
+    scanf(" %15[^\n]", procurando);
+    clienteC= (Clientecon*)malloc(sizeof(Clientecon));
+    contaCO = (Contacon*) malloc(sizeof(Contacon));
+    cliente = (Contrato*) malloc(sizeof(Contrato));
 
-    contaCO-> horaSaida = hora ->tm_hour;
-    contaCO-> minutoSaida = hora ->tm_min;
+    while((!achou) && (fread(clienteC, sizeof(Clientecon), 1, fp1))) {
+      if((strcmp(clienteC->cpf, procurando) == 0) && (clienteC->status == '1')) {
+            achou = 1;
+        }
+    }
+    if (achou) {
+      while((!achou2) && (fread(contaCO, sizeof(Contacon), 1, fp2))) {
+        if((strcmp(contaCO->cpf, clienteC->cpf) == 0) && (contaCO->status == '1')) {
+            achou2 = 1;
+        }
+        if (achou2){ 
 
-    contaCO-> saiu = 's';
-  
-    
-      contaCO->status = '1';
-      fseek(fp, (-1)*sizeof(Contacon), SEEK_CUR);
-      fwrite(contaCO, sizeof(Contacon), 1, fp);
-  } else {
-    printf("O Cliente não foi encontrado...\n");
-  }
-  free(contaCO);
-  fclose(fp);
-  
-  float preco = calculapreco(contaCO ->horaEntrada,contaCO ->minutoEntrada,contaCO -> horaSaida, contaCO ->minutoSaida);
-  float valortotal=clienteC->preco_acumulado + preco;
-    printf("==============================\n");
-    printf("==============================\n");
-    printf("%d/%d/%d\n", contaCO->dia, contaCO->mes,contaCO->ano);
-    printf("o cliente entrou às %d:%d\n", contaCO->horaEntrada, contaCO->minutoEntrada);
-    printf("saiu às %d:%d\n", contaCO->horaSaida, contaCO->minutoSaida);
-    printf("Total a pagar: R$ %.2f\n",preco);
-    printf("===============================\n");
-    grava_conta_convenio(contaCO);
-    printf("\n...Ticket cadastrado com sucesso...\n ");
-    printf("Click >> V << para voltar: ");
-    scanf("%s", &op);
+          contaCO-> horaSaida = hora ->tm_hour;
+          contaCO-> minutoSaida = hora ->tm_min;
+          contaCO-> saiu = 's';
+          contaCO->status = '1';
+          fseek(fp2, (-1)*sizeof(Contacon), SEEK_CUR);
+          fwrite(contaCO, sizeof(Contacon), 1, fp2);
+        
+          float preco = calculapreco(contaCO ->horaEntrada,contaCO ->minutoEntrada,contaCO -> horaSaida, contaCO ->minutoSaida);
+          clienteC->preco_acumulado += preco;
+          printf("==============================\n");
+          printf("%d/%d/%d\n", contaCO->dia, contaCO->mes,contaCO->ano);
+          printf("o cliente entrou às %d:%d\n", contaCO->horaEntrada, contaCO->minutoEntrada);
+          printf("saiu às %d:%d\n", contaCO->horaSaida, contaCO->minutoSaida);
+          printf("Total a pagar: R$ %.2f\n",preco);
+          printf("===============================\n");
+          fseek(fp1, (-1)*sizeof(Clientecon), SEEK_CUR);
+          fwrite(clienteC, sizeof(Clientecon), 1, fp1);
+          printf("\n...Ticket cadastrado com sucesso...\n ");
+          printf("Click >> V << para voltar: ");
+          scanf("%s", &op);
+          while((!achou3) && (fread(cliente, sizeof(Contrato), 1, fp3))) {
+            if((strcmp(cliente->cpf, contaCO->cpf) == 0) && (cliente->status == '1')) {
+             achou3 = 1;
+            }
+          }
+        if (achou3){ 
 
-  
-
- 
+          cliente->preco_acumulado = clienteC->preco_acumulado;
+          fseek(fp3, (-1)*sizeof(Contrato), SEEK_CUR);
+          fwrite(cliente, sizeof(Contrato), 1, fp3);
+        }
+        else{printf("\nO o cliente não foi encontrado\n ");
+       }   
+     }
+    }
+ }   
+   
+fclose(fp1);
+fclose(fp2);
+fclose(fp3);
+free(clienteC);
+free(contaCO);
+free(cliente);
 }
+
+
+
   
 //=================================================================================================================================================================
 
@@ -385,6 +483,10 @@ char cliente_menu_avulso(void){
             
                 char op;
                 break;
+             case'C':
+                printf("implementando");
+            
+                break;    
 
 
 			    printf("\n");
@@ -469,7 +571,6 @@ char empresa_menu(void){
     printf("\n C- Lista Ordenada Clientes\n");
     printf("\n D- Exibir Clientes\n");
     printf("\n E- Registro de Atividade (dia,Mês,Ano)\n");
-    printf("\n F- Rentabilidade\n");
     printf("\n V- Voltar\n");
     printf("-------------------------------\n");
     printf("Por favor digite sua escolha:   \n");
@@ -540,7 +641,6 @@ char administrador_menu(){
             case'B':
 
               listaInvertidaconvenio();
-              exibeLista(lista);
               printf("\nDigite Enter para Continuar: ");
               getchar();
               getchar();
@@ -550,7 +650,6 @@ char administrador_menu(){
             case 'C':
               
               listaOrdenadaconvenio();
-              exibeLista(lista);
               printf("\nDigite Enter para Continuar: ");
               getchar();
               getchar();
@@ -572,12 +671,6 @@ char administrador_menu(){
 
                 break;
             
-            case 'F':
-
-            cliente_empresa_lucro();
-            
-
-                break;
     
 
             default:
@@ -702,14 +795,7 @@ char cliente_empresa_lucro(void){
 
 
 
-
-
-
-
-
-
-
-//menu principal
+//=======================================T ELAS DE MENU ================================================
 char imp_menu(void){
     char escolha;
 
@@ -838,14 +924,6 @@ char login_cadastrado_adm(void){
     printf("Por favor para continuar faça login : \n");
     printf("Usuário: \n");
     scanf(" %49[^\n]", login->usuario);
-    if (usuario == login->usuario){
-      return 1;
-    }
-    else{
-      printf("\nUsuario incorreto. Digite novamente: ");
-      scanf(" %49[^\n]", login->usuario);
-      
-    }
     printf("Senha: \n");
     scanf(" %29[^\n]", login->senha);
     
@@ -854,24 +932,27 @@ char login_cadastrado_adm(void){
 
 }
 
-//===============================================================================================================================//
+//================================================== FUNÇÃO QUE MOSTRA O SOBRE =====================================================//
 
-char sobre_menu(void){
-    char valor;
-    printf("-----------------------------------------------------------------------\n");
-    printf("==========================       SOBRE        =========================\n");
-    printf("-----------------------------------------------------------------------\n"); 
-    printf(">>> Sistema de controle de Estacionamentos <<<.\n Nome: Cars Flow.\n Criador: Fábio Araújo, Contato:(84) 9 8819-5543 ).\n email: fabioaraujo.js@hotmail.com\n");
-    printf("-----------------------------------------------------------------------\n"); 
-    printf("Digite >> V << para voltar:  \n");
-    // valor = getchar();
-    printf("Digite sua opção");
-    scanf(" %c",&valor);
-   return valor;//mudar esse retorno
+void sobre_menu(void){
+  system("clear");
+    printf("------------------------------------------------------------------------------------\n");
+    printf("================================       SOBRE        ================================\n");
+    printf("------------------------------------------------------------------------------------\n"); 
+    printf("UNIVERSIDADE FEDERAL DO RIO GRANDE DO NORTE\n");
+    printf(">>> Sistema de controle de Estacionamentos <<<\n");
+    printf("Nome: Cars Flow\n"); 
+    printf("Criador: Fábio Araújo, Contato:(84) 9 8819-5543\n"); 
+    printf("Email: fabioaraujo.js@hotmail.com\n");
+    printf("o Cars Flow é um programa criado por um aluno do 2º periodo de sistemas de Informação\n");
+    printf("Professor orientador: Flávius Gorgônio\n");
+    printf("Disciplina: Programação\n");
+    printf("-------------------------------------------------------------------------------------\n"); 
+    
 }
 
 
-//----------------------------------------------------------------------//
+//=======================================================================================================================================
 
 //segundas telas de empresa  >>em construção<
 
@@ -915,36 +996,8 @@ char lucro(void){
     return toupper(escolha);
     
 }
-//funçoes de gravar em arquivo
-//grava cliente convenio
-void gravaLoginfun(Loginfun* clienteC) {
-  FILE* fp;
-  fp = fopen("ClienteConvenio.dat", "ab");
-  if (fp == NULL) {
-    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
-    printf("Não é possível continuar o programa...\n");
-    exit(1);
-  }
-  fwrite(clienteC, sizeof(Clientecon), 1, fp);
-  fclose(fp);
-}
 
-
-void gravaclicon(Clientecon* clienteC) {
-  FILE* fp;
-  fp = fopen("ClienteConvenio.dat", "ab");
-  if (fp == NULL) {
-    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
-    printf("Não é possível continuar o programa...\n");
-    exit(1);
-  }
-  fwrite(clienteC, sizeof(Clientecon), 1, fp);
-  fclose(fp);
-}
-
-
-// função de edição
-
+//===================================FUNÇÃO PARA EDIÇÃO DE CLIENTE CONVÊNIO=====================================
 void altera_convenio(void) {
   FILE* fp;
   Clientecon* clienteC;
@@ -958,12 +1011,12 @@ void altera_convenio(void) {
     exit(1);
   }
   printf("\n\n");
-  printf("Informe o nome da placa do veículo: ");
+  printf("Informe o nome CPF do veículo: ");
   scanf(" %14[^\n]", procurado);
   clienteC = (Clientecon*) malloc(sizeof(Clientecon));
   achou = 0;
   while((!achou) && (fread(clienteC, sizeof(Clientecon), 1, fp))) {
-   if ((strcmp(clienteC->placa, procurado) == 0) && (clienteC->status == '1')) {
+   if ((strcmp(clienteC->cpf, procurado) == 0) && (clienteC->status == '1')) {
      achou = 1;
    }
   }
@@ -972,26 +1025,67 @@ void altera_convenio(void) {
     printf("Deseja realmente Alterar este Cliente (s/n)? ");
     scanf(" %c", &resp);
     if (resp == 's' || resp == 'S') {
-      printf("\n Nome: ");
+       printf("\n Nome: ");
       scanf(" %49[^\n]", clienteC->nome);
+      while(!(validaNome(clienteC->nome))){
+      printf("Nome inválido. Digite novamente: ");
+      scanf(" %49[^\n]", clienteC->nome);
+      }
       printf("\n CPF: ");
       scanf(" %15[^\n]", clienteC->cpf);
-      printf("\n Celular: ");
-      scanf("%d", &clienteC->celular);
+      while(!(validacpf(clienteC->cpf))){
+      printf("CPF inválido. Digite novamente: ");
+      scanf(" %15[^\n]", clienteC->cpf);
+      }
+      printf("\n Email: ");
+      scanf(" %39[^\n]", clienteC->email);
+      while(!(validaEmail(clienteC->email))){
+      printf("Email inválido. Digite novamente: ");
+      scanf(" %39[^\n]", clienteC->email);
+      }
+      
       printf("\n Rua: ");
-      scanf(" %29[^\n]", clienteC->rua);
+      scanf(" %39[^\n]", clienteC->rua);
+      while(!(validaNome(clienteC->rua))){
+      printf("Nome inválido. Digite novamente: ");
+      scanf(" %39[^\n]", clienteC->rua);
+      }
+     
       printf("\n Bairro: ");
-      scanf(" %29[^\n]", clienteC->bairro);
+      scanf(" %39[^\n]", clienteC->bairro);
+      while(!(validaNome(clienteC->bairro))){
+      printf("Nome inválido. Digite novamente: ");
+      scanf(" %39[^\n]", clienteC->bairro);
+      }
+     
+  
       printf("\n Cidade: ");
-      scanf(" %29[^\n]", clienteC->cidade);
+      scanf(" %39[^\n]", clienteC->cidade);
+      while(!(validaNome(clienteC->cidade))){
+      printf("Cidade  inválida. Digite novamente: ");
+      scanf(" %39[^\n]", clienteC->cidade);
+      }
+      
       printf("\n Estado: ");
       scanf(" %29[^\n]", clienteC->estado);
+      while(!(validaNome(clienteC->estado))){
+      printf("Estado inválido. Digite novamente: ");
+      scanf(" %49[^\n]", clienteC->estado);
+      }
+      
       printf("\n Número da casa: ");
       scanf("%d", &clienteC->numeroCasa);
+      
       printf("\n Tipo de veículo(Carro/Moto): ");
       scanf(" %19[^\n]", clienteC->tipoveiculo);
+      while(!(validaNome(clienteC->tipoveiculo))){
+      printf("Tipo  inválido. Digite novamente: ");
+      scanf(" %19[^\n]", clienteC->tipoveiculo);
+      }
+      
       printf("\n Modelo do veículo: ");
-      scanf(" %19[^\n]", clienteC->modeloveiculo);
+      scanf(" %39[^\n]", clienteC->modeloveiculo);
+      
       printf("\n Placa do veículo: ");
       scanf(" %19[^\n]", clienteC->placa);
       clienteC->status = '1';
@@ -1016,7 +1110,7 @@ void exibe_convenio(Clientecon* clienteC) {
   
   printf("Nome: %s\n", clienteC->nome);
   printf("CPF: %s\n", clienteC->cpf);
-  printf("Celular:%d\n", clienteC->celular);
+  printf("Email: %s\n", clienteC->email);
   printf("Rua: %s\n", clienteC->rua);
   printf("Bairro: %s\n", clienteC->bairro);
   printf("Cidade: %s\n", clienteC->cidade);
@@ -1045,6 +1139,19 @@ void exibe_conta_convenio(Contacon* contaCO) {
   
 }
 
+//==================== essa função ainda não está sendo usada=========================================================
+void exibe_Avulso(Avulso* clienteA) {
+  printf("Placa do  Veículo: %s\n", clienteA->placa);
+  printf("==============================\n");
+  printf("%d/%d/%d\n", clienteA->dia, clienteA->mes,clienteA->ano);
+  printf("o cliente entrou às %d:%d\n", clienteA->horaEntrada, clienteA->minutoEntrada);
+  printf("saiu às %d:%d\n", clienteA->horaSaida, clienteA->minutoSaida);
+  printf("===============================\n");
+  printf("Status: %c\n", clienteA->status);
+  printf("\n");
+  
+}
+
 // função exibir cliente
 void exibir_cliente_convenio(void) {
   FILE* fp;
@@ -1061,12 +1168,12 @@ void exibir_cliente_convenio(void) {
   printf("================================\n");
   printf("==== EXIBE CLIENTE CONVÊNIO ====\n");
   printf("================================\n");
-  printf("Informe a placa do Cliente: ");
+  printf("Informe o CPF do Cliente: ");
   scanf(" %14[^\n]", procurado);
   clienteC = (Clientecon*) malloc(sizeof(Clientecon));
   achou = 0;
   while((!achou) && (fread(clienteC, sizeof(Clientecon), 1, fp))) {
-   if ((strcmp(clienteC->placa, procurado) == 0) && (clienteC->status == '1')) {
+   if ((strcmp(clienteC->cpf, procurado) == 0) && (clienteC->status == '1')) {
      achou = 1;
    }
   }
@@ -1078,7 +1185,7 @@ void exibir_cliente_convenio(void) {
     getchar();
   
   } else {
-    printf("O Cliente  %s não foi encontrado...\n", procurado);
+    printf("O CPF  %s não foi encontrado...\n", procurado);
   }
   free(clienteC);
 }
@@ -1107,25 +1214,47 @@ void lista_clientecon(void) {
   free(clienteC);
   
 }
+
+//===============================================================================================================
+
+//lista cliente avul ==> essa função nescessita de ajustes 04/12/2019
+void lista_avulso(void) {
+  FILE* fp;
+  Avulso* clienteA;
+  fp = fopen("ClienteAvulso.dat", "rb");
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+  printf("\n\n");
   
-  //função para pegar a hora e a data
+  printf("===== CLIENTES CONVÊNIO=====\n");
+  clienteA = (Avulso*) malloc(sizeof(Avulso));
+  while(fread(clienteA, sizeof(Avulso), 1, fp)) {
+    if (clienteA->status == '1') {
+      exibe_Avulso(clienteA);
+    }
+  }
+  fclose(fp);
+  free(clienteA);
+  
+}
+  
+//=======================================função para pegar a hora e a data====================================
 void data_hora(void) {
 
   struct tm *hora;     
-  
-  
   time_t segundos;
-  
-
   time(&segundos);   
   
   //para converter de segundos para o tempo local  
   //utilizamos a função localtime  
   hora = localtime(&segundos);  
   
-  printf("   %d/", hora->tm_mday);//dia
+  printf("%d/", hora->tm_mday);//dia
   printf("%d/",hora->tm_mon+1); //mês
-  printf("%d\n\n",hora->tm_year+1900); //ano
+  printf("%d\n",hora->tm_year+1900); //ano
 
 
 
@@ -1134,6 +1263,8 @@ void data_hora(void) {
 
 
 }
+
+//=================================================================================================================
 
 // função calcula valor estacionamento
 float calculapreco(int horaEntrada,int minutoEntrada,int horaSaida,int minutoSaida){
@@ -1150,8 +1281,10 @@ return precototal;
 
 }
 
+//=================================================================================================================
 
 
+//===============================FUNÇÃO PARA EXCLUIR PESSOA CADASTRADA=============================================
 void excluirconvenio(void) {
   FILE* fp;
   Clientecon* clienteC;
@@ -1165,103 +1298,196 @@ void excluirconvenio(void) {
     exit(1);
   }
   printf("\n\n");
-  printf("============================\n");
-  printf("= Excluir Cliente Convênio =\n");
-  printf("============================\n");
-  printf("Por favor digite a Placa do cliente que deseja excluir: ");
+  printf("----------------------- \n");
+  printf("    EXCLUIR CLIENTE      \n");
+  printf("------------------------\n");
+  printf("Informe o CPF do cliente a ser ecluido: ");
   scanf(" %14[^\n]", procurado);
   clienteC = (Clientecon*) malloc(sizeof(Clientecon));
   achou = 0;
   while((!achou) && (fread(clienteC, sizeof(Clientecon), 1, fp))) {
-   if ((strcmp(clienteC->placa, procurado) == 0) && (clienteC->status == '1')) {
+   if ((strcmp(clienteC->cpf, procurado) == 0) && (clienteC->status == '1')) {
      achou = 1;
    }
   }
   if (achou) {
     exibe_convenio(clienteC);
     getchar();
-    printf("Deseja realmente Excluir este Cliente (s/n)? ");
+    printf("Deseja realmente excluir este cliente (s/n)? ");
     scanf("%c", &resp);
     if (resp == 's' || resp == 'S') {
       clienteC->status = '0';
       fseek(fp, (-1)*sizeof(Clientecon), SEEK_CUR);
       fwrite(clienteC, sizeof(Clientecon), 1, fp);
-      printf("\nCliente excluído com sucesso!!!\n");
+      printf("\nCliente  excluído com sucesso!!!\n");
      } else {
        printf("\nOk, os dados não foram alterados\n");
      }
   } else {
-    printf("O cliente %s não foi encontrado...\n", procurado);
+    printf("O CPF %s não foi encontrado...\n", procurado);
   }
   free(clienteC);
   fclose(fp);
+
 }
 
+//========================FUNÇÃO PARA PAGAMENTO ===================================================
 void pagamento_cliete_convenio(void) {
+    char op;
+    FILE* fp1;
+    FILE* fp2;
+    FILE* fp3;
+    Clientecon* clienteC;
+    Contrato* cliente;
+    Contacon* contaCO;
+    struct tm *hora;     
+    time_t segundos;
+    time(&segundos);   
+    char procurando [12];
+    int achou=0, achou2=0, achou3=0;
+    char placa[9];
+    hora = localtime(&segundos);  
+    fp1 = fopen("ClienteConvenio.dat", "r+b");
+    fp2 = fopen("ContaConvenio.dat", "r+b");
+    fp3 = fopen("Contrato.dat","r+b");
+    if ((fp1 == NULL) && (fp2 == NULL) && (fp3 == NULL)) {
+        printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+        printf("Não é possível continuar o programa...\n");
+        exit(1);
+    }  
+
+    printf("==============================================\n");
+    printf("------------   ||| PAGAMENTO |||    --------------\n");
+    printf("==============================================\n");
+    printf("\n Por Favor Digite o CPF do Cliente: ");
+    scanf(" %15[^\n]", procurando);
+
+    clienteC= (Clientecon*)malloc(sizeof(Clientecon));
+    contaCO = (Contacon*) malloc(sizeof(Contacon));
+    cliente = (Contrato*) malloc(sizeof(Contrato));
+
+    while((!achou) && (fread(clienteC, sizeof(Clientecon), 1, fp1))) {
+      if((strcmp(clienteC->cpf, procurando) == 0) && (clienteC->status == '1')) {
+            achou = 1;
+        }
+    }
+    if (achou) {
+      while((!achou2) && (fread(contaCO, sizeof(Contacon), 1, fp2))) {
+        if((strcmp(contaCO->cpf, clienteC->cpf) == 0) && (contaCO->status == '1')) {
+            achou2 = 1;
+         }
+        }
+      
+    }
+        if (achou2){ 
+          while((!achou3) && (fread(cliente, sizeof(Contrato), 1, fp3))) {
+            if((strcmp(cliente->cpf, contaCO->cpf) == 0) && (cliente->status == '1')) {
+              achou3 = 1;
+
+            }
+          }
+
+        }
+
+          if (achou3){ 
+
+            printf("==============================\n");
+            printf("Nome do Cliente: %s\n", clienteC->nome);
+            printf("CPF do cliente: %s\n", clienteC->cpf);
+            printf("Total a pagar: R$ %.2f\n",cliente->preco_acumulado);
+            printf("===============================\n");
+            printf("valor pago\n");
+            clienteC-> preco_acumulado = 0;
+            contaCO ->preco_acumulado = 0;
+            /*
+            contaCO -> horaEntrada = 0;
+            contaCO -> minutoEntrada = 0;
+            contaCO -> horaSaida = 0;
+            contaCO -> horaSaida = 0;
+            */
+            cliente->preco_acumulado = 0;
+            fseek(fp1, (-1)*sizeof(Clientecon), SEEK_CUR);
+            fwrite(clienteC, sizeof(Clientecon), 1, fp1);
+
+            fseek(fp2, (-1)*sizeof(Contacon), SEEK_CUR);
+            fwrite(contaCO, sizeof(Contacon), 1, fp2);
+
+            fseek(fp3, (-1)*sizeof(Contrato), SEEK_CUR);
+            fwrite(cliente, sizeof(Contrato), 1, fp3);
+          
+          } 
+          else{
+            printf("\nO o cliente não foi encontrado\n ");
+          }      
+   
+fclose(fp1);
+fclose(fp2);
+fclose(fp3);
+free(clienteC);
+free(contaCO);
+free(cliente);
+}
+
+//=======================================================================================================
+
+//==========================FUNÇÕES DE GRAVAÇÃO DE ARQUIVOS===============================================
+
+//FUNÇÃO QUE GRAVA LOGIN FUNCIONÁRIO 
+void gravaLoginfun(Loginfun* clienteC) {
   FILE* fp;
-  Contacon* contaCO;
-  int achou;
-  char procurado[15];
-  fp = fopen("ContaConvenio.dat", "rb");
+  fp = fopen("ClienteConvenio.dat", "ab");
   if (fp == NULL) {
     printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
     printf("Não é possível continuar o programa...\n");
     exit(1);
   }
-  printf("\n\n");
-  printf("================================\n");
-  printf("====        PAGAMENTO       ====\n");
-  printf("================================\n");
-  printf("Informe a placa do cliente: ");
-  scanf(" %14[^\n]", procurado);
-  contaCO = (Contacon*) malloc(sizeof(Contacon));
-  achou = 0;
-  while((!achou) && (fread(contaCO, sizeof(Contacon), 1, fp))) {
-   if ((strcmp(contaCO->placa, procurado) == 0) && (contaCO->status == '1')) {
-     achou = 1;
-   }
-  }
+  fwrite(clienteC, sizeof(Clientecon), 1, fp);
   fclose(fp);
-  if (achou) {
-    exibe_conta_convenio(contaCO);
-    printf("Total a pagar: R$ %.2f\n",contaCO->valortotal);
-    
-  
-  } else {
-    printf("O Cliente  %s não foi encontrado...\n", procurado);
-  }
-  free(contaCO);
 }
 
-
-
-//grava login funcionário
-void gravafun(Loginfun* login) {
+//=======================FUNÇÃO QUE GRAVA CLIENTE CONVÊNIO ============================================
+void gravaclicon(Clientecon* clienteC) {
   FILE* fp;
-  fp = fopen("LoginFuncionario.dat", "ab");
+  fp = fopen("ClienteConvenio.dat", "ab");
   if (fp == NULL) {
     printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
     printf("Não é possível continuar o programa...\n");
     exit(1);
   }
-  fwrite(login, sizeof(Loginfun), 1, fp);
+  fwrite(clienteC, sizeof(Clientecon), 1, fp);
   fclose(fp);
 }
 
-//grava login administrador
-void gravaadm(LoginAdmin* login) {
+
+
+//============================FUNÇAO QUE GRAVA CONTRATO==================================================
+void gravacontrato(Contrato* cliente) {
+  cliente->status = '1';
   FILE* fp;
-  fp = fopen("LoginAdministrador.dat", "ab");
+  fp = fopen("Contrato.dat", "ab");
   if (fp == NULL) {
     printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
     printf("Não é possível continuar o programa...\n");
     exit(1);
   }
-  fwrite(login, sizeof(LoginAdmin), 1, fp);
+  fwrite(cliente, sizeof(Contrato), 1, fp);
   fclose(fp);
 }
 
-// grava conta convênio
+//=========================FUNÇÃO QUE GRAVA CLIENTE AVULSO================================================
+void gravaavulso(Avulso* clienteA) {
+  FILE* fp;
+  fp = fopen("ClienteAvulso.dat", "ab");
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+  fwrite(clienteA, sizeof(Contrato), 1, fp);
+  fclose(fp);
+}
+
+//=========================FUNÇÃO QUE GRAVA CONTA CONVÊNIO==================================================
 void grava_conta_convenio(Contacon* contaCO) {
   FILE* fp;
   fp = fopen("ContaConvenio.dat", "ab");
@@ -1274,10 +1500,34 @@ void grava_conta_convenio(Contacon* contaCO) {
   fclose(fp);
 }
 
+//==========================FUNÇÃO QUE GRAVA=================================>>>>ICOMPRIENSÃO<<<<<
+void gravafun(Loginfun* login) {
+  FILE* fp;
+  fp = fopen("LoginFuncionario.dat", "ab");
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+  fwrite(login, sizeof(Loginfun), 1, fp);
+  fclose(fp);
+}
 
 
+//======================== FUNÇÃO QUE GRAVA LOGIN ADMINISTRADOR =====================================
+void gravaadm(LoginAdmin* login) {
+  FILE* fp;
+  fp = fopen("LoginAdministrador.dat", "ab");
+  if (fp == NULL) {
+    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
+    printf("Não é possível continuar o programa...\n");
+    exit(1);
+  }
+  fwrite(login, sizeof(LoginAdmin), 1, fp);
+  fclose(fp);
+}
 
-//função para registrar usuario e senha de funcionárop
+//===================função para registrar usuario e senha de funcionáro==============================
 void login_funcionario(void){
   Loginfun* login;
   printf("--Por favor crie seu usuario e senha--\n");
@@ -1294,7 +1544,7 @@ void login_funcionario(void){
   printf("aperte ENTER para continuar");
 }
 
-//função para registrar usuario e senha do administrador
+//=====================função para registrar usuario e senha do administrador ==========================
 void login_administrador(void){
   LoginAdmin* login;
   printf("--Por favor crie seu usuario e senha--\n");
@@ -1313,9 +1563,7 @@ void login_administrador(void){
 }
 
 
-
-
-// FUNÇÕES PARA LISTA DE CLIENTES POR DATA(DIA,MÊS,ANO)
+//======================FUNÇÕES PARA LISTA DE CLIENTES POR DATA(DIA,MÊS,ANO)========================================================
 void lista_dia_convenio(void) {
   FILE* fp;
   Contacon* contaCO;
@@ -1336,21 +1584,15 @@ void lista_dia_convenio(void) {
   printf("Informe a data nesse formato (__/__/__): ");
   scanf(" %d/%d/%d", &diaProcurando,&mesProcurando,&anoProcurando);
   contaCO = (Contacon*) malloc(sizeof(Contacon));
-  while((!achou) && (fread(contaCO, sizeof(Contacon), 1, fp))) {
+  while(fread(contaCO, sizeof(Contacon), 1, fp)) {
     
-     if (diaProcurando == contaCO ->dia && mesProcurando == contaCO -> mes && anoProcurando == contaCO -> ano && contaCO->status == '1') 
-
-    {
-     achou = 1;
-   }
+     if (diaProcurando == contaCO ->dia && mesProcurando == contaCO -> mes && anoProcurando == contaCO -> ano && contaCO->status == '1') {
+          exibe_conta_convenio(contaCO);
+     }
+      else {
+      printf("Data inválida(ou não existe ou o usuario digitou errado)  %d/%d/%d \n", diaProcurando,mesProcurando,anoProcurando);}
   }
   fclose(fp); 
-  if (achou) {
-    exibe_conta_convenio(contaCO);
-  
-  } else {
-    printf("Data inválida(ou não existe ou o usuario digitou errado)  %d/%d/%d \n", diaProcurando,mesProcurando,anoProcurando);
-  }
   free(contaCO);
 }
 
@@ -1376,23 +1618,18 @@ void lista_mes_convenio(void) {
   printf("Informe apenas o mês e o ano (__/__): ");
   scanf(" %d/%d", &mesProcurando,&anoProcurando);
   contaCO = (Contacon*) malloc(sizeof(Contacon));
-  while((!achou) && (fread(contaCO, sizeof(Contacon), 1, fp))) {
+  while(fread(contaCO, sizeof(Contacon), 1, fp)) {
     
-     if (mesProcurando == contaCO -> mes && anoProcurando == contaCO -> ano && contaCO->status == '1') 
-
-    {
-     achou = 1;
-   }
+     if (mesProcurando == contaCO -> mes && anoProcurando == contaCO -> ano && contaCO->status == '1'){ 
+            exibe_conta_convenio(contaCO);
+     }
+      else 
+          {printf("Data inválida(ou não existe ou o usuario digitou errado) %d/%d \n",mesProcurando,anoProcurando); }
   }
-  fclose(fp); 
-  if (achou) {
-    exibe_conta_convenio(contaCO);
   
-  } else {
-    printf("Data inválida(ou não existe ou o usuario digitou errado) %d/%d \n",mesProcurando,anoProcurando);
-  }
+  fclose(fp); 
   free(contaCO);
-}
+  }
 
 
 // lista clirnte ano
@@ -1416,25 +1653,23 @@ void lista_ano_convenio(void) {
   printf("Informe apenas  o ano : ");
   scanf(" %d",&anoProcurando);
   contaCO = (Contacon*) malloc(sizeof(Contacon));
-  while((!achou) && (fread(contaCO, sizeof(Contacon), 1, fp))) {
+  while(fread(contaCO, sizeof(Contacon), 1, fp)) {
     
-     if ( anoProcurando == contaCO -> ano && contaCO->status == '1') 
-
-    {
-     achou = 1;
-   }
+     if ( anoProcurando == contaCO -> ano && contaCO->status == '1') {
+        exibe_conta_convenio(contaCO);
+     } 
+     else {
+        printf("Data inválida(ou não existe ou o usuario digitou errado) %d \n",anoProcurando);
+      } 
   }
+    
   fclose(fp); 
-  if (achou) {
-    exibe_conta_convenio(contaCO);
-  
-  } else {
-    printf("Data inválida(ou não existe ou o usuario digitou errado) %d \n",anoProcurando);
-  }
   free(contaCO);
 }
 
-//======================================================================================================================
+//======================================================================================================================================
+
+//=================================LISTAS DINÂMICAS=====================================================================================
 UsClientecon* listaInvertidaconvenio(void) {
   FILE* fp;
   Clientecon* clienteC;
@@ -1455,7 +1690,7 @@ UsClientecon* listaInvertidaconvenio(void) {
       usclientecon = (UsClientecon*) malloc(sizeof(UsClientecon));
       strcpy(usclientecon->nome, clienteC->nome);
       strcpy(usclientecon->cpf, clienteC->cpf);
-      usclientecon->celular = clienteC->celular;
+      strcpy(usclientecon->email, clienteC->email);
       strcpy(usclientecon->rua, clienteC->rua);
       strcpy(usclientecon->bairro, clienteC->bairro);
       strcpy(usclientecon->cidade, clienteC->cidade);
@@ -1470,8 +1705,9 @@ UsClientecon* listaInvertidaconvenio(void) {
     }
   }
   fclose(fp);
+  exibeLista(lista);
   free(clienteC);
-  return lista;
+  liberaLista(lista);
 }
 
 
@@ -1495,7 +1731,7 @@ UsClientecon* listaOrdenadaconvenio(void) {
       usclientecon = (UsClientecon*) malloc(sizeof(UsClientecon));
       strcpy(usclientecon->nome, clienteC->nome);
       strcpy(usclientecon->cpf, clienteC->cpf);
-      usclientecon->celular = clienteC->celular;
+      strcpy(usclientecon->email, clienteC->email);
       strcpy(usclientecon->rua, clienteC->rua);
       strcpy(usclientecon->bairro, clienteC->bairro);
       strcpy(usclientecon->cidade, clienteC->cidade);
@@ -1505,7 +1741,6 @@ UsClientecon* listaOrdenadaconvenio(void) {
       strcpy(usclientecon->modeloveiculo, clienteC->modeloveiculo);
       strcpy(usclientecon->placa, clienteC->placa);
       usclientecon->status = clienteC->status;
-
       if (lista == NULL) {
         lista = usclientecon;
         usclientecon->prox = NULL;
@@ -1525,9 +1760,14 @@ UsClientecon* listaOrdenadaconvenio(void) {
     }
   }
   fclose(fp);
+  exibeLista(lista);
   free(clienteC);
-  return lista;
+  liberaLista(lista);
 }
+
+
+ 
+
 
 // criando lista dinâmica em ordem direta 
 UsClientecon* listaDiretaclientes(void) {
@@ -1551,15 +1791,15 @@ UsClientecon* listaDiretaclientes(void) {
       usclientecon = (UsClientecon*) malloc(sizeof(UsClientecon));
       strcpy(usclientecon->nome, clienteC->nome);
       strcpy(usclientecon->cpf, clienteC->cpf);
-      usclientecon->celular = clienteC->celular;
+      strcpy(usclientecon->email, clienteC->email);
       strcpy(usclientecon->rua, clienteC->rua);
       strcpy(usclientecon->bairro, clienteC->bairro);
       strcpy(usclientecon->cidade, clienteC->cidade);
       strcpy(usclientecon->estado, clienteC->estado);
-       usclientecon->numeroCasa = clienteC->numeroCasa;
-       strcpy(usclientecon->tipoveiculo, clienteC->tipoveiculo);
-       strcpy(usclientecon->modeloveiculo, clienteC->modeloveiculo);
-       strcpy(usclientecon->placa, clienteC->placa);
+      usclientecon->numeroCasa = clienteC->numeroCasa;
+      strcpy(usclientecon->tipoveiculo, clienteC->tipoveiculo);
+      strcpy(usclientecon->modeloveiculo, clienteC->modeloveiculo);
+      strcpy(usclientecon->placa, clienteC->placa);
       usclientecon->status = clienteC->status;
       usclientecon->prox = NULL;
       if (lista == NULL) {
@@ -1575,6 +1815,9 @@ UsClientecon* listaDiretaclientes(void) {
   return lista;
 }
 
+
+
+
 // função exibe lista dinamica direta//
 void exibeLista(UsClientecon* lista) {
   printf("\n\n");
@@ -1584,7 +1827,7 @@ void exibeLista(UsClientecon* lista) {
   while (lista != NULL) {
     printf("Nome: %s\n", lista->nome);
     printf("CPF: %s\n", lista->cpf);
-    printf("Celular:%d\n", lista->celular);
+    printf("Email:%s\n", lista->email);
     printf("Rua: %s\n", lista->rua);
     printf("Bairro: %s\n", lista->bairro);
     printf("Cidade: %s\n", lista->cidade);
@@ -1599,5 +1842,13 @@ void exibeLista(UsClientecon* lista) {
   }
 }
 
+void liberaLista(UsClientecon* lista){
+  UsClientecon* aux = lista;
+  while (lista != NULL) {
+		lista = lista->prox;
+		free(aux);
+		aux = lista;
+	}
+}
 
-
+//=====================================================================================================================================
