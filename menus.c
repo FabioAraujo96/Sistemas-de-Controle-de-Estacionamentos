@@ -1,12 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>  
-#include <string.h>
-#include <ctype.h>
-#include <unistd.h>
-#include <time.h>
-#include "validacoes.h"
-#include "menus.h"
-
+#include <stdio.h>                       //printf funções de entrada e  saida
+#include <stdlib.h>                      //malloc alocação de memória 
+#include <string.h>                      // copiar strings 
+#include <time.h>                        // pega data e hora automática
+#include <ctype.h>                       //uso para tranformar letras maiculas em minusculas 
+#include "validacoes.h"                 // minha biblioteaca de assinaturas referentes  as minhas validações
+#include "menus.h"                      //minha biblioteca de assinaturas referentes as funções de menus 
 
 //===============================CADASTRANDO  CLIENTE CONVÊNIO ===============================================================
 
@@ -22,9 +20,10 @@ void cadastro_cliente_convenio(void){
       printf("\n Nome: ");
       scanf(" %49[^\n]", clienteC->nome);
       while(!(validaNome(clienteC->nome))){
-      printf("Nome  inválido. Digite novamente: ");
-      scanf(" %49[^\n]", clienteC->nome);
+        printf("Nome  inválido. Digite novamente: ");
+        scanf(" %49[^\n]", clienteC->nome);
       }
+
       printf("\n CPF: ");
       scanf(" %15[^\n]", clienteC->cpf);
       while(!(validacpf(clienteC->cpf))){
@@ -101,7 +100,6 @@ void cadastro_avulso_entrada() {
     contaCO-> minutoSaida = 0;
     contaCO-> saiu = 'n';
     contaCO -> status = '1';
-    contaCO->status = '1';
     printf("\n");
     grava_conta_convenio(contaCO);
     printf("\n... Registrado com sucesso...\n ");
@@ -444,7 +442,7 @@ char cliente_menu(void){
             
                 break;
 
-            case'B':
+            case 'B':
                 cliente_menu_convenio();
             
                 char op;
@@ -478,12 +476,12 @@ char cliente_menu_avulso(void){
             
                 break;
 
-            case'B':
+            case 'B':
                 cadastro_avulso_saida();
             
                 char op;
                 break;
-             case'C':
+             case 'C':
                 printf("implementando");
             
                 break;    
@@ -514,47 +512,50 @@ char cliente_menu_convenio(void){
             
                 break;
 
-            case'B':
+            case 'B':
               altera_convenio();
              
                 break;
 
 
-            case'C':
+            case 'C':
               cadastro_convenio_entrada();
 
                  break;
-            case'D':
+            case 'D':
               cadastro_convenio_saida();
 
                  break;
-            case'E':
+            case 'E':
                 pagamento_cliete_convenio();
                 printf("\nDigite Enter para Continuar: ");
                 getchar();
                 getchar();
 
                  break;
-            case'F':
+            case 'F':
                 excluirconvenio();
 
                  break;
-     
+            case 'V':
 
+                break;
             default:
 
 			       printf("\n");
 			       printf(">>>Opção errada. Digite uma opção válida: ");
 			       printf("\n");
+             break;
 
+    
 
         }
-    }
+        getchar();
+    }     
     while(escolha!='V');
 
-        return escolha;
+    return escolha;
 }
-
 
 
 
@@ -637,7 +638,7 @@ char administrador_menu(){
   
                 break;
 
-            case'B':
+            case 'B':
 
               listaInvertidaconvenio();
               printf("\nDigite Enter para Continuar: ");
@@ -706,7 +707,7 @@ char cliente_empresa_relatorio(void){
             
                 break;
 
-            case'B':
+            case 'B':
               lista_mes_convenio();
               printf("\nDigite Enter para Continuar: ");
               getchar();
@@ -716,7 +717,7 @@ char cliente_empresa_relatorio(void){
                 break;
 
 
-            case'C':
+            case 'C':
               lista_ano_convenio();
               printf("\nDigite Enter para Continuar: ");
               getchar();
@@ -762,13 +763,13 @@ char cliente_empresa_lucro(void){
             
                 break;
 
-            case'B':
+            case 'B':
               printf("em construção");
              
                 break;
 
 
-            case'C':
+            case 'C':
                 printf("em construção");
 
                  break;

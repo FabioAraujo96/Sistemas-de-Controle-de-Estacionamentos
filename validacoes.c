@@ -1,15 +1,16 @@
-#include <stdio.h> //printf funções de entrada e  saida
-#include <stdlib.h> //malloc alocação de memória 
-#include <string.h>// copiar strings 
-#include <time.h> // pega data e hora automática
-#include <ctype.h> //uso para tranformar letras maiculas em minusculas 
-#include "validacoes.h"// minha biblioteaca de assinaturas referentes  as minhas validações
-#include "menus.h" // minha biblioteca de assinaturas referentes as funções de menus 
-#include <regex.h> // biblioteca para expecificar padão de texto, no meu caso letras 
+#include <stdio.h>                       //printf funções de entrada e  saida
+#include <stdlib.h>                      //malloc alocação de memória 
+#include <string.h>                      // copiar strings 
+#include <time.h>                        // pega data e hora automática
+#include <ctype.h>                       //uso para tranformar letras maiculas em minusculas 
+#include "validacoes.h"                  // minha biblioteaca de assinaturas referentes  as minhas validações
+#include "menus.h"                       //minha biblioteca de assinaturas referentes as funções de menus 
+#include <regex.h>                       // biblioteca para expecificar padão de texto, no meu caso letras 
 
 
+//.........(CRÉDITOS A DANRLEY E DOUGLAS).......... 
 
-//=================================================     VALIDAÇÃO PARA LETRAS   ==================================================
+//=================================================  VALIDAÇÃO PARA LETRAS   ==================================================
 
 
 int validaNome(char nome[100]) {

@@ -1,13 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <ctype.h>
-#include "validacoes.h"
+#include <stdio.h>                       //printf funções de entrada e  saida
+#include <stdlib.h>                      //malloc alocação de memória 
+#include <string.h>                      // copiar strings 
+#include <time.h>                        // pega data e hora automática
+#include <ctype.h>                       //uso para tranformar letras maiculas em minusculas 
+#include "validacoes.h"                 // minha biblioteaca de assinaturas referentes  as minhas validações
+#include "menus.h"                      //minha biblioteca de assinaturas referentes as funções de menus 
 
-
-#include "menus.h"
-//programa principal
+//===================================== MENU PTOGRAMA PRINCIPAL =================================================
 int main (void){
 	
     char menu_principal;
