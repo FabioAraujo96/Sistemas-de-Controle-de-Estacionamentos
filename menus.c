@@ -507,7 +507,7 @@ char cliente_menu_convenio(void){
     system("clear");
     
 
-    do{https:
+    do{
         switch(escolha=convenio_menu()){
             case 'A':
                 cadastro_cliente_convenio();
@@ -543,10 +543,9 @@ char cliente_menu_convenio(void){
 
             default:
 
-			    printf("\n");
-			    printf(">>>Opção errada. Digite uma opção válida: ");
-			    printf("\n");
-
+			       printf("\n");
+			       printf(">>>Opção errada. Digite uma opção válida: ");
+			       printf("\n");
 
 
         }
@@ -1139,19 +1138,6 @@ void exibe_conta_convenio(Contacon* contaCO) {
   
 }
 
-//==================== essa função ainda não está sendo usada=========================================================
-void exibe_Avulso(Avulso* clienteA) {
-  printf("Placa do  Veículo: %s\n", clienteA->placa);
-  printf("==============================\n");
-  printf("%d/%d/%d\n", clienteA->dia, clienteA->mes,clienteA->ano);
-  printf("o cliente entrou às %d:%d\n", clienteA->horaEntrada, clienteA->minutoEntrada);
-  printf("saiu às %d:%d\n", clienteA->horaSaida, clienteA->minutoSaida);
-  printf("===============================\n");
-  printf("Status: %c\n", clienteA->status);
-  printf("\n");
-  
-}
-
 // função exibir cliente
 void exibir_cliente_convenio(void) {
   FILE* fp;
@@ -1216,30 +1202,6 @@ void lista_clientecon(void) {
 }
 
 //===============================================================================================================
-
-//lista cliente avul ==> essa função nescessita de ajustes 04/12/2019
-void lista_avulso(void) {
-  FILE* fp;
-  Avulso* clienteA;
-  fp = fopen("ClienteAvulso.dat", "rb");
-  if (fp == NULL) {
-    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
-    printf("Não é possível continuar o programa...\n");
-    exit(1);
-  }
-  printf("\n\n");
-  
-  printf("===== CLIENTES CONVÊNIO=====\n");
-  clienteA = (Avulso*) malloc(sizeof(Avulso));
-  while(fread(clienteA, sizeof(Avulso), 1, fp)) {
-    if (clienteA->status == '1') {
-      exibe_Avulso(clienteA);
-    }
-  }
-  fclose(fp);
-  free(clienteA);
-  
-}
   
 //=======================================função para pegar a hora e a data====================================
 void data_hora(void) {
@@ -1328,7 +1290,8 @@ void excluirconvenio(void) {
   }
   free(clienteC);
   fclose(fp);
-
+  getchar();
+  getchar();
 }
 
 //========================FUNÇÃO PARA PAGAMENTO ===================================================
@@ -1471,19 +1434,6 @@ void gravacontrato(Contrato* cliente) {
     exit(1);
   }
   fwrite(cliente, sizeof(Contrato), 1, fp);
-  fclose(fp);
-}
-
-//=========================FUNÇÃO QUE GRAVA CLIENTE AVULSO================================================
-void gravaavulso(Avulso* clienteA) {
-  FILE* fp;
-  fp = fopen("ClienteAvulso.dat", "ab");
-  if (fp == NULL) {
-    printf("Ops! Ocorreu um erro na abertura do arquivo!\n");
-    printf("Não é possível continuar o programa...\n");
-    exit(1);
-  }
-  fwrite(clienteA, sizeof(Contrato), 1, fp);
   fclose(fp);
 }
 

@@ -65,23 +65,6 @@ struct contrato {
   char status;
 };
 
-//implemnatr uma estrutura apenas para cliente avulso
-
-typedef struct avulso Avulso;
-
-struct avulso {
-  char placa[20];
-  float avulso_acumulado;
-  int horaEntrada;
-  int minutoEntrada;
-  char saiu;
-  int horaSaida;
-  int minutoSaida;
-  int dia;
-  int mes;
-  int ano;
-  char status;
-};
 
 
 
@@ -114,8 +97,6 @@ struct loginadmin {
 
 };
 
-
-void exibe_Avulso(Avulso*);//--> criando ainda (não sei se vou ter tempo)
 void liberaLista(UsClientecon*);// função para liberar lista
 UsClientecon* listaOrdenadaconvenio(void);// função para lista ordenada 
 UsClientecon* listaInvertidaconvenio(void);// função  para lista invertida
@@ -124,7 +105,6 @@ void  grava_conta_convenio(Contacon*);//função para gravar conta convênio
 UsClientecon* listaDiretaclientes(void);// função para lista direta de clientes
 void exibeLista(UsClientecon*);//função que exibe lista--dinâmica
 void gravaadm(LoginAdmin*);//função que grava função para administrador 
-void gravaavulso(Avulso*);//f>>>>>unção está sendo implementada<<<<<
 void exibe_conta_convenio(Contacon*);//função que exibe valores referente ao uso de estacionamento 
 void gravacontrato(Contrato*) ;//função que grava contatro -- função de pagamento dos clientes
 void gravaclicon( Clientecon*);// grava cliente convênio

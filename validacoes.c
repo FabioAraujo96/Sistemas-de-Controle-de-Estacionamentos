@@ -1,11 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <ctype.h>
-#include "validacoes.h"
-#include "menus.h"
-#include <regex.h>
+#include <stdio.h> //printf funções de entrada e  saida
+#include <stdlib.h> //malloc alocação de memória 
+#include <string.h>// copiar strings 
+#include <time.h> // pega data e hora automática
+#include <ctype.h> //uso para tranformar letras maiculas em minusculas 
+#include "validacoes.h"// minha biblioteaca de assinaturas referentes  as minhas validações
+#include "menus.h" // minha biblioteca de assinaturas referentes as funções de menus 
+#include <regex.h> // biblioteca para expecificar padão de texto, no meu caso letras 
 
 
 
@@ -132,7 +132,7 @@ int validacpf(char * cpf){
 
 
 
-
+//================================ VALIDAÇÃO PENSADA PARA VALIDAR LOGIN DE FUNCIONÁRIO ===============================================
 int validaloginfunusuario(char* usuario) {
   FILE* fp;
   Loginfun* login;
@@ -163,7 +163,7 @@ int validaloginfunusuario(char* usuario) {
 }
 
 
-
+//==============================================       VALIDAÇÃO PARA EMAIL            ============================================
 int validaEmail(char* email) {
 
   int tam = strlen(email);
@@ -183,7 +183,7 @@ int validaEmail(char* email) {
       if (ponto){ 
         Dponto++;
       }
-      else if (c == '.'){
+      else if(c == '.'){
         ponto = 1;
         if (Aponto < 3){
           break;
@@ -199,67 +199,4 @@ int validaEmail(char* email) {
     return 1;
   else
     return 0;
-}
-
-
-
-
-/*int validaloginfunusuario(char* usuario){
-  int encontrado = 0;
-  FILE* fp;
-  Loginfun* login;
-  fp = fopen("LoginFuncionario.dat","rb");
-  if(fp == NULL){
-    return 0;
-  } else{
-    login = (Loginfun*) malloc(sizeof(Loginfun));
-    while((!encontrado) && (fread(login, sizeof(Loginfun), 1, fp))){
-      if((strcmp(login->usuario,usuario) && (login->status == '1'))){
-        encontrado = 1;
-      }
-    }
-    fclose(fp);
-    free(login);
-    if(encontrado){
-      return 1;
-    } else{
-      return 0;
-    }
-  }
-}*/
-
-
-
-int validanumero(char* numero) {
-
-    regex_t reg;
-
-    if(strlen(numero) > 2) {
-
-        return 0;
-
-    }
-
-    else {
-
-        if(regcomp(&reg, RE_NUMBER, REG_EXTENDED|REG_NOSUB) != 0) {
-
-            return 0;
-
-        } else {
-
-            if((regexec(&reg, numero, 0, (regmatch_t*)NULL, 0)) == 0) {
-
-                return 1;
-
-            } else {
-
-                return 0;
-
-            }
-
-        }
-
-    }
-
 }
