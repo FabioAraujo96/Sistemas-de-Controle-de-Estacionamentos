@@ -25,31 +25,43 @@ void cadastro_cliente_convenio(void){
       }
 
       printf("\n CPF: ");
-      scanf(" %15[^\n]", clienteC->cpf);
+      scanf(" %12[^\n]", clienteC->cpf);
       while(!(validacpf(clienteC->cpf))){
-      printf("CPF inválido. Digite novamente: ");
-      scanf(" %15[^\n]", clienteC->cpf);
+        printf("CPF inválido. Digite novamente: ");
+        scanf(" %12[^\n]", clienteC->cpf);
       }
       printf("\n Email: ");
       scanf(" %39[^\n]", clienteC->email);
-      while(!(validaEmail(clienteC->email))){
-      printf("Email inválido. Digite novamente: ");
-      scanf(" %39[^\n]", clienteC->email);
+        while(!(validaEmail(clienteC->email))){
+        printf("Email inválido. Digite novamente: ");
+        scanf(" %39[^\n]", clienteC->email);
       }
       
       printf("\n Rua: ");
       scanf(" %39[^\n]", clienteC->rua);
+      while(!(validaNome(clienteC->rua))){
+        printf("Nome  inválido. Digite novamente: ");
+        scanf(" %39[^\n]", clienteC->rua);
+      }
       
       printf("\n Bairro: ");
       scanf(" %39[^\n]", clienteC->bairro);
       
+      
   
       printf("\n Cidade: ");
       scanf(" %39[^\n]", clienteC->cidade);
+      while(!(validaNome(clienteC->cidade))){
+        printf("Cidade inválido. Digite novamente: ");
+        scanf(" %39[^\n]", clienteC->cidade);
+      }
       
       printf("\n Estado: ");
       scanf(" %29[^\n]", clienteC->estado);
-    
+      while(!(validaNome(clienteC->estado))){
+        printf("Estado inválido. Digite novamente: ");
+        scanf(" %29[^\n]", clienteC->estado);
+      }
       
       printf("\n Número da casa: ");
       scanf("%d", &clienteC->numeroCasa);
@@ -59,6 +71,7 @@ void cadastro_cliente_convenio(void){
       
       printf("\n Modelo do veículo: ");
       scanf(" %39[^\n]", clienteC->modeloveiculo);
+      
     
       printf("\n Placa do veículo: ");
       scanf(" %19[^\n]", clienteC->placa);
@@ -1025,30 +1038,30 @@ void altera_convenio(void) {
     printf("Deseja realmente Alterar este Cliente (s/n)? ");
     scanf(" %c", &resp);
     if (resp == 's' || resp == 'S') {
-       printf("\n Nome: ");
+      printf("\n Nome: ");
       scanf(" %49[^\n]", clienteC->nome);
       while(!(validaNome(clienteC->nome))){
-      printf("Nome inválido. Digite novamente: ");
-      scanf(" %49[^\n]", clienteC->nome);
+        printf("Nome inválido. Digite novamente: ");
+        scanf(" %49[^\n]", clienteC->nome);
       }
       printf("\n CPF: ");
       scanf(" %15[^\n]", clienteC->cpf);
       while(!(validacpf(clienteC->cpf))){
-      printf("CPF inválido. Digite novamente: ");
-      scanf(" %15[^\n]", clienteC->cpf);
+        printf("CPF inválido. Digite novamente: ");
+        scanf(" %15[^\n]", clienteC->cpf);
       }
       printf("\n Email: ");
       scanf(" %39[^\n]", clienteC->email);
       while(!(validaEmail(clienteC->email))){
-      printf("Email inválido. Digite novamente: ");
-      scanf(" %39[^\n]", clienteC->email);
+        printf("Email inválido. Digite novamente: ");
+        scanf(" %39[^\n]", clienteC->email);
       }
       
       printf("\n Rua: ");
       scanf(" %39[^\n]", clienteC->rua);
       while(!(validaNome(clienteC->rua))){
-      printf("Nome inválido. Digite novamente: ");
-      scanf(" %39[^\n]", clienteC->rua);
+        printf("Nome inválido. Digite novamente: ");
+        scanf(" %39[^\n]", clienteC->rua);
       }
      
       printf("\n Bairro: ");
@@ -1062,15 +1075,15 @@ void altera_convenio(void) {
       printf("\n Cidade: ");
       scanf(" %39[^\n]", clienteC->cidade);
       while(!(validaNome(clienteC->cidade))){
-      printf("Cidade  inválida. Digite novamente: ");
-      scanf(" %39[^\n]", clienteC->cidade);
+        printf("Cidade  inválida. Digite novamente: ");
+        scanf(" %39[^\n]", clienteC->cidade);
       }
       
       printf("\n Estado: ");
       scanf(" %29[^\n]", clienteC->estado);
       while(!(validaNome(clienteC->estado))){
-      printf("Estado inválido. Digite novamente: ");
-      scanf(" %49[^\n]", clienteC->estado);
+        printf("Estado inválido. Digite novamente: ");
+        scanf(" %49[^\n]", clienteC->estado);
       }
       
       printf("\n Número da casa: ");
@@ -1078,10 +1091,7 @@ void altera_convenio(void) {
       
       printf("\n Tipo de veículo(Carro/Moto): ");
       scanf(" %19[^\n]", clienteC->tipoveiculo);
-      while(!(validaNome(clienteC->tipoveiculo))){
-      printf("Tipo  inválido. Digite novamente: ");
-      scanf(" %19[^\n]", clienteC->tipoveiculo);
-      }
+      
       
       printf("\n Modelo do veículo: ");
       scanf(" %39[^\n]", clienteC->modeloveiculo);
