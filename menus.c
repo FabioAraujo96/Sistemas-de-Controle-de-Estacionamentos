@@ -193,7 +193,7 @@ void cadastro_avulso_saida(void) {
 //=============================================================================================================================================
 
 
-//========================== cadastro entrada e saida cliente convenio =================================================================
+//======================================== CÓDIGO DE ENTRADA DE CONVÊNIO ======================================================================
 void cadastro_convenio_entrada(void) {
     char op;
     FILE* fp1;
@@ -307,8 +307,8 @@ free(cliente);
 }
 
 
-
-
+//====================================CÓDIGO DE SAIDA DO CONVÊNIO =====================================
+    
 void cadastro_convenio_saida() {
     char op;
     FILE* fp1;
@@ -955,9 +955,11 @@ void sobre_menu(void){
     printf("UNIVERSIDADE FEDERAL DO RIO GRANDE DO NORTE\n");
     printf(">>> Sistema de controle de Estacionamentos <<<\n");
     printf("Nome: Cars Flow\n"); 
-    printf("Criador: Fábio Araújo, Contato:(84) 9 8819-5543\n"); 
+    printf("Criador: Fábio Araújo \n");
+    printf("Contato:(84) 9 8819-5543\n"); 
     printf("Email: fabioaraujo.js@hotmail.com\n");
-    printf("o Cars Flow é um programa criado por um aluno do 2º periodo de sistemas de Informação\n");
+    printf("Endereço do Git:https://github.com/FabioAraujo96\n");
+    printf("O Cars Flow é um programa criado por um aluno do 2º periodo de sistemas de Informação\n");
     printf("Professor orientador: Flávius Gorgônio\n");
     printf("Disciplina: Programação\n");
     printf("-------------------------------------------------------------------------------------\n"); 
@@ -1373,12 +1375,7 @@ void pagamento_cliete_convenio(void) {
             printf("valor pago\n");
             clienteC-> preco_acumulado = 0;
             contaCO ->preco_acumulado = 0;
-            /*
-            contaCO -> horaEntrada = 0;
-            contaCO -> minutoEntrada = 0;
-            contaCO -> horaSaida = 0;
-            contaCO -> horaSaida = 0;
-            */
+            
             cliente->preco_acumulado = 0;
             fseek(fp1, (-1)*sizeof(Clientecon), SEEK_CUR);
             fwrite(clienteC, sizeof(Clientecon), 1, fp1);

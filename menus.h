@@ -119,6 +119,7 @@ void exibe_convenio(Clientecon*);           //função para exibir clientes conv
 char imp_menu(void);                        //tela menu principal;
 char cliente_menu(void);                    //tela do cliente avulso e Convênio;
 char administrador_menu(void);              //menu empresa;
+char lucro (void);
 void sobre_menu(void);                      //função mostra uma descrição breve do programa e seus criadores;
 char convenio_login(void);                  //tela de menu da opção convênio;
 char visualizarClientes(void);              //em construção, referente ao menu empresa;
